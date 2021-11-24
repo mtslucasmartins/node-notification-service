@@ -1,30 +1,38 @@
-const app = require('./app');
-// const appWs = require('./app-ws');
-const { WebSocketServer } = require('./app-ws');
+const { WorkManager } = require('./src/workers');
+const { RestApplication } = require('./src/application');
+const { WebSocketServer } = require('./src/websocket');
 
+// TODO: should be handled different 
 const config = {
-  port: process.env.PORT || 3000
+  port: process.env.PORT || 3000,
+  kafka: {
+    client_id: '',
+    brokers: []
+  }
 };
 
-const server = app.listen(config.port, () => {
-  console.log(`app is running on port ${config.port}`);
-});
+class Application {
 
-const wss = new WebSocketServer(server);
+  constructor() {
+    this.#initializeServers();
+    this.#initializeWorkers();
+  }
 
-setInterval(() => {
-  //wss.broadcast({ n: Math.random() });
+  async #initializeServers() {
+    const application = new RestApplication();
 
-  Object.keys(WebSocketServer.connections).forEach(k => {
-    console.log(k);
+    await application.initialize();
 
-    const connection = WebSocketServer.connections[k];
+    this.websocket = new WebSocketServer(RestApplication.server);
+  }
 
-    connection.ws.send(JSON.stringify({
-      'sid': connection.info.sid,
-      'username': connection.info.username,
-      'channel': connection.info.channel
-    }));
-  });
+  async #initializeWorkers() {
+    this.workManager = new WorkManager();
+    this.workManager.start();
+  }
 
-}, 1000);
+}
+
+(() => {
+  const application = new Application();
+})();
