@@ -50,7 +50,7 @@ class WSNotificationConsumer extends EventEmitter {
     super();
 
     this.uid = uuidv4();
-    this.topic = `${KAFKA_PREFIX}topic`;
+    this.topic = `${KAFKA_PREFIX}${topic}`;
     this.groupId = `${KAFKA_PREFIX}metadata_topic_${this.uid}`;
 
     this.kafka = KafkaConnectionFactory.createHerokuKafka();
@@ -79,7 +79,7 @@ class WSNotificationConsumer extends EventEmitter {
 class WSNotificationProducer {
 
   constructor(topic) {
-    this.topic = `${KAFKA_PREFIX}topic`;
+    this.topic = `${KAFKA_PREFIX}${topic}`;
 
     this.kafka = KafkaConnectionFactory.createHerokuKafka();
 
