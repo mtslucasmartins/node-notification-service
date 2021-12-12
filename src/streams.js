@@ -22,7 +22,12 @@ class KafkaConnectionFactory {
 
     const kafkaBrokers = kafkaUrl.split(',');
     console.log(`[kafka][factory][heroku]: brokers=[${kafkaBrokers}]`);
-    
+
+    for (const broker of kafkaBrokers) {
+      console.log(`[kafka][factory][heroku]: brokers=[${broker}]`);
+    }
+
+
     return new Kafka({
       clientId: KAFKA_CLIENT_ID,
       brokers: kafkaBrokers,
