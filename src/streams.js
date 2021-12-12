@@ -11,13 +11,18 @@ const KAFKA_PREFIX = process.env.KAFKA_PREFIX;
 class KafkaConnectionFactory {
 
   static createHerokuKafka() {
+    console.log(`[kafka][factory][heroku]: creating kafka instance provider=[heroku]`);
+
     const kafkaUrl = process.env.KAFKA_URL;
     const kafkaSslTrustedCert = process.env.KAFKA_TRUSTED_CERT;
     const kafkaSslClientCertKey = process.env.KAFKA_CLIENT_CERT_KEY;
     const kafkaSslClientCert = process.env.KAFKA_CLIENT_CERT;
+    
+    console.log(`[kafka][factory][heroku]: kafka-url=[${kafkaUrl}]`);
 
     const kafkaBrokers = kafkaUrl.split(',');
-
+    console.log(`[kafka][factory][heroku]: brokers=[${kafkaBrokers}]`);
+    
     return new Kafka({
       clientId: KAFKA_CLIENT_ID,
       brokers: kafkaBrokers,
