@@ -42,7 +42,9 @@ class WorkManager {
   async start() {
     Promise.all(
       this.workers.map((worker) => worker.run())
-    );
+    ).catch((error) => {
+      console.log('error intializing workers', error);
+    });
   }
 
 }
