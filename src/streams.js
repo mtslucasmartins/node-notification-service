@@ -6,6 +6,31 @@ const { v4: uuidv4 } = require('uuid');
 // TODO: switch for environment variables
 const KAFKA_CLIENT_ID = 'app-id';
 const KAFKA_BROKERS = ['kafka:9092'];
+const KAFKA_PREFIX = process.env.KAFKA_PREFIX;
+
+class KafkaConnectionFactory {
+
+  static createHerokuKafka() {
+    const kafkaUrl = process.env.KAFKA_URL;
+    const kafkaSslTrustedCert = process.env.KAFKA_TRUSTED_CERT;
+    const kafkaSslClientCertKey = process.env.KAFKA_CLIENT_CERT_KEY;
+    const kafkaSslClientCert = process.env.KAFKA_CLIENT_CERT;
+
+    const kafkaBrokers = kafkaUrl.split(',');
+
+    return new Kafka({
+      clientId: KAFKA_CLIENT_ID,
+      brokers: kafkaBrokers,
+      ssl: {
+        rejectUnauthorized: false,
+        ca: [ kafkaSslTrustedCert ],
+        key: kafkaSslClientCertKey,
+        cert: kafkaSslClientCert
+      }
+    });
+  }
+
+}
 
 class WSNotificationConsumer extends EventEmitter {
 
@@ -13,13 +38,10 @@ class WSNotificationConsumer extends EventEmitter {
     super();
 
     this.uid = uuidv4();
-    this.topic = topic;
+    this.topic = `${KAFKA_PREFIX}topic`;
     this.groupId = `metadata_topic_${this.uid}`;
 
-    this.kafka = new Kafka({
-      clientId: KAFKA_CLIENT_ID,
-      brokers: KAFKA_BROKERS
-    });
+    this.kafka = KafkaConnectionFactory.createHerokuKafka();
 
     this.consumer = this.kafka.consumer({
       groupId: this.groupId
@@ -45,12 +67,9 @@ class WSNotificationConsumer extends EventEmitter {
 class WSNotificationProducer {
 
   constructor(topic) {
-    this.topic = topic;
+    this.topic = `${KAFKA_PREFIX}topic`;
 
-    this.kafka = new Kafka({
-      clientId: KAFKA_CLIENT_ID,
-      brokers: KAFKA_BROKERS
-    });
+    this.kafka = KafkaConnectionFactory.createHerokuKafka();
 
     this.producer = this.kafka.producer();
   }
