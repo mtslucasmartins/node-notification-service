@@ -56,7 +56,7 @@ class WSNotificationConsumer extends EventEmitter {
     this.kafka = KafkaConnectionFactory.createHerokuKafka();
 
     this.consumer = this.kafka.consumer({
-      groupId: this.groupId
+      // groupId: this.groupId
     });
   }
 
