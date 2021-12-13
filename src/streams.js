@@ -51,12 +51,12 @@ class WSNotificationConsumer extends EventEmitter {
 
     this.uid = uuidv4();
     this.topic = `${KAFKA_PREFIX}${topic}`;
-    this.groupId = `${KAFKA_PREFIX}metadata_topic_${this.uid}`;
+    this.groupId = `${KAFKA_PREFIX}ottimizza.ws-notifications.consumer-1`;
 
     this.kafka = KafkaConnectionFactory.createHerokuKafka();
 
     this.consumer = this.kafka.consumer({
-      // groupId: this.groupId
+      groupId: this.groupId
     });
   }
 
