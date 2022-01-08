@@ -49,11 +49,13 @@ class WebSocketServer {
   static connections = {};
 
   constructor(server) {
+    console.log(`[websocket] initializing websocket server`);
     this.repository = new WSConnectionRepository();
     this.wss = new WebSocket.Server({
       path: WebSocketServer.PATH, server
     });
     this.wss.on(WSEvent.CONNECTION, this.onConnection.bind(this));
+    console.log(`[websocket] websocket server initialized`);
   }
 
   onError(ws, err) {
