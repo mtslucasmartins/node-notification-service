@@ -2,20 +2,12 @@ const { WorkManager } = require('./src/workers');
 const { RestApplication } = require('./src/application');
 const { WebSocketServer } = require('./src/websocket');
 
-// TODO: should be handled different 
-const config = {
-  port: process.env.PORT || 3000,
-  kafka: {
-    client_id: '',
-    brokers: []
-  }
-};
-
 class Application {
 
   constructor() {
-    this.#initializeServers();
-    this.#initializeWorkers();
+    this.#initializeWorkers().then(() => {
+      this.#initializeServers();
+    });
   }
 
   async #initializeServers() {
