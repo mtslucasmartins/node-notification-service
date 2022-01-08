@@ -74,6 +74,7 @@ class WebSocketServer {
   }
 
   onConnection(ws, req) {
+    console.log(`[websocket] on_connection`);
     const params = UrlUtils.parseSearchParams(req.url);
 
     const sid = uuid.v4();
