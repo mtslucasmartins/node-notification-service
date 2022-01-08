@@ -52,6 +52,8 @@ class WebSocketServer {
     console.log(`[websocket] initializing websocket server`);
     this.repository = new WSConnectionRepository();
     this.wss = new WebSocket.Server({
+      keepalive: true, 
+      dropConnectionOnKeepaliveTimeout: false,
       path: WebSocketServer.PATH, server
     });
     this.wss.on(WSEvent.CONNECTION, this.onConnection.bind(this));
