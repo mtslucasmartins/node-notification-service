@@ -99,7 +99,6 @@ class WSConsumerService {
   constructor() {
     // TODO: create an global instance of redis shared to repositories
     this.instanceRepository = new WSInstanceRepository();
-    this.instanceRepository.connect();
   }
 
   getAvailableConsumer() {
@@ -116,7 +115,6 @@ class WSInstanceService {
   constructor() {
     this.consumerService = new WSConsumerService();
     this.instanceRepository = new WSInstanceRepository();
-    this.instanceRepository.connect();
   }
 
   async get(instanceId) {
