@@ -47,8 +47,11 @@ class RedisConnectionFactory {
   constructor() {}
 
   static async createRedisConnection() {
+    console.log('[redis] [factory] creating a redis connection instance.');
     const redisConnection = new RedisConnection();
     await redisConnection.connect();
+    RedisConnection.instance = redisConnection;
+    console.log('[redis] [factory] successfully created a redis connection instance.');
   }
 
 }
