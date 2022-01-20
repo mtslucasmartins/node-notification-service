@@ -2,15 +2,22 @@ const { v4: uuidv4 } = require('uuid');
 const { WorkManager } = require('./src/workers');
 const { RestApplication } = require('./src/application');
 const { WebSocketServer } = require('./src/websocket');
+const { RedisConnectionFactory } = require('./src/repository');
 
 class Application {
 
   static INSTANCE_ID =  uuidv4();
 
   constructor() {
-    this.#initializeWorkers().then(() => {
-      this.#initializeServers();
+    this.#initializeRedisClient().then(() => {
+      this.#initializeWorkers().then(() => {
+        this.#initializeServers();
+      });
     });
+  }
+
+  async #initializeRedisClient() {
+    RedisConnectionFactory.createRedisConnection();
   }
 
   async #initializeServers() {

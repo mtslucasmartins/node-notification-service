@@ -114,6 +114,7 @@ class WSInstanceRepository {
 }
 
 module.exports = {
+  RedisConnectionFactory,
   WSConnectionRepository,
   WSInstanceRepository
 };
