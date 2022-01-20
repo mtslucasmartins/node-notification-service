@@ -75,9 +75,9 @@ class RedisConnection {
 
   async connect() {
     return new Promise((resolve, reject) => {
-      console.log(`[redis] creating client url=[${this.redisUrl}]`);
+      console.log(`[redis] creating client url=[${this.redisTlsUrl}]`);
       this.client = createClient({ 
-        url: this.redisUrl, 
+        url: this.redisTlsUrl, 
         socket: {
           tls: true,
           rejectUnauthorized: false
