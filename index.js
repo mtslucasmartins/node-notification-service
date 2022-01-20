@@ -1,8 +1,11 @@
+const { v4: uuidv4 } = require('uuid');
 const { WorkManager } = require('./src/workers');
 const { RestApplication } = require('./src/application');
 const { WebSocketServer } = require('./src/websocket');
 
 class Application {
+
+  static INSTANCE_ID =  uuidv4();
 
   constructor() {
     this.#initializeWorkers().then(() => {

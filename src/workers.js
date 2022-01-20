@@ -1,7 +1,43 @@
-const { WSNotificationService } = require('./services');
+const { Application } = require('../index'); 
+const { WSNotificationService, WSInstanceService } = require('./services');
 const { WSNotificationConsumer } = require('./streams');
 
 const KAFKA_TOPIC = 'ottimizza.websocket-notifications.general';
+
+class InstancePrunerWorker {
+  
+  constructor() {
+    this.instanceService = new WSInstanceService();
+  }
+
+  async run() {
+    const prune = (() => {
+      const instances = this.instanceService.getAllKeys();
+      console.log(instances);
+
+      for (const instanceId of instances) {
+        const instance = this.instanceService.get(instanceId);
+
+        console.log(instanceId);
+        // check if instance.updatedAt is recent (15 seconds)
+        // if it is, great - if it's not, delete that key.
+      }
+    });
+  }
+
+} 
+
+class InstanceHealthcheckWorker {
+  
+  constructor() {
+    this.instanceService = new WSInstanceService();
+  }
+  
+  async run() {
+    this.instanceService.save(Application.INSTANCE_ID);
+  }
+
+} 
 
 class WSNotificationWorker {
 
@@ -30,8 +66,12 @@ class WorkManager {
   workers = new Array();
 
   constructor() {
+    const instanceHealthcheckWorker = new InstanceHealthcheckWorker();
+    const instancePrunerWorker = new InstancePrunerWorker();
     const notificationWorker = new WSNotificationWorker();
 
+    this.register(instanceHealthcheckWorker);
+    this.register(instancePrunerWorker);
     this.register(notificationWorker);
   }
 
