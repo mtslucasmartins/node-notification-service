@@ -47,8 +47,8 @@ class RedisConnectionFactory {
   constructor() {}
 
   static async createRedisConnection() {
-    const redisConnectionClient = new RedisConnection();
-    await redisConnectionClient.connect();
+    const redisConnection = new RedisConnection();
+    await redisConnection.connect();
   }
 
 }
@@ -62,16 +62,16 @@ class RedisConnection {
     this.redisTlsUrl = process.env.REDIS_TLS_URL;
     this.client = null;
 
-    if (RedisConnectionClient.instance = null) {
-      RedisConnectionClient.instance = this;
+    if (RedisConnection.instance = null) {
+      RedisConnection.instance = this;
     }
   }
 
   static getInstance() {
-    if (!RedisConnectionClient.instance) {
-      throw new Error('No instance of RedisConnectionClient available!');
+    if (!RedisConnection.instance) {
+      throw new Error('No instance of RedisConnection available!');
     }
-    return RedisConnectionClient.instance;
+    return RedisConnection.instance;
   }
 
   async connect() {
@@ -100,7 +100,7 @@ class WSInstanceRepository {
     this.redisUrl = process.env.REDIS_URL;
     this.redisTlsUrl = process.env.REDIS_TLS_URL;
     
-    this.redisClient = RedisConnectionClient.getInstance();
+    this.redisClient = RedisConnection.getInstance();
   }
 
   async set(key, value) {
