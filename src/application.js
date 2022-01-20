@@ -9,6 +9,8 @@ const { MessagePublisherController } = require('./controllers');
 
 class RestApplication {
 
+  static INSTANCE_ID =  uuidv4();
+
   static server;
 
   constructor() {

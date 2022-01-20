@@ -7,8 +7,6 @@ const { __esModule } = require('uuid/dist/v1');
 
 class Application {
 
-  static INSTANCE_ID =  uuidv4();
-
   constructor() {
     this.#initializeRedisClient().then(() => {
       this.#initializeWorkers().then(() => {
@@ -39,7 +37,3 @@ class Application {
 (() => {
   const application = new Application();
 })();
-
-module.exports = {
-  Application
-};

@@ -1,4 +1,4 @@
-const { Application } = require('../index'); 
+const { RestApplication } = require('./application');
 const { WSNotificationService, WSInstanceService } = require('./services');
 const { WSNotificationConsumer } = require('./streams');
 
@@ -34,7 +34,7 @@ class InstanceHealthcheckWorker {
   }
   
   async run() {
-    this.instanceService.save(Application.INSTANCE_ID);
+    this.instanceService.save(RestApplication.INSTANCE_ID);
   }
 
 } 
