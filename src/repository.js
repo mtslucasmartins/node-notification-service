@@ -75,6 +75,7 @@ class RedisConnection {
 
   async connect() {
     return new Promise((resolve, reject) => {
+      console.log(`[redis] creating client url=[${this.redisUrl}]`);
       this.client = createClient({ 
         url: this.redisUrl, 
         // socket: {
