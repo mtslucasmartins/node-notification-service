@@ -75,7 +75,7 @@ class RedisConnection {
 
   async connect() {
     return new Promise((resolve, reject) => {
-      this.client = createClient({ url: this.redisUrl });
+      this.client = createClient({ url: this.redisTlsUrl });
 
       this.client.on('error', (err) => console.log('Redis Client Error', err));
 
