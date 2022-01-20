@@ -142,13 +142,13 @@ class WSInstanceService {
     }
 
     // saving the instance to Redis.
-    this.instanceRepository.set(instanceId, instance);
+    this.instanceRepository.set(instanceId, JSON.stringify(instance));
 
     // we also need to update the key containing all instances
     if (isNewInstance) {
-      const allInstances = this.instanceRepository.get(WSInstanceService.INSTANCES_KEY);
+      const allInstances = JSON.parse(this.instanceRepository.get(WSInstanceService.INSTANCES_KEY));
       allInstances.push(instanceId);
-      this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, allInstances);
+      this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, JSON.stringify(allInstances));
     }
 
     return instance; 
