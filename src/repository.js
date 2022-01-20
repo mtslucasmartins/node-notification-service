@@ -77,10 +77,10 @@ class RedisConnection {
     return new Promise((resolve, reject) => {
       this.client = createClient({ 
         url: this.redisUrl, 
-        socket: {
-          tls: false,
-          rejectUnauthorized: false
-        }
+        // socket: {
+        //   tls: false,
+        //   rejectUnauthorized: false
+        // }
       });
 
       this.client.on('error', (err) => console.log('Redis Client Error', err));
