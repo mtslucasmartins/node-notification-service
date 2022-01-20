@@ -78,7 +78,7 @@ class RedisConnection {
       this.client = createClient({ 
         url: this.redisUrl, 
         socket: {
-          tls: true,
+          tls: false,
           rejectUnauthorized: false
         }
       });
