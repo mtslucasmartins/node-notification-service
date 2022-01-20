@@ -3,6 +3,7 @@ const { WorkManager } = require('./src/workers');
 const { RestApplication } = require('./src/application');
 const { WebSocketServer } = require('./src/websocket');
 const { RedisConnectionFactory } = require('./src/repository');
+const { __esModule } = require('uuid/dist/v1');
 
 class Application {
 
@@ -38,3 +39,7 @@ class Application {
 (() => {
   const application = new Application();
 })();
+
+module.exports = {
+  Application
+};
