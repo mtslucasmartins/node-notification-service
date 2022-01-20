@@ -74,22 +74,20 @@ class RedisConnection {
   }
 
   async connect() {
-    return new Promise((resolve, reject) => {
-      console.log(`[redis] creating client url=[${this.redisTlsUrl}]`);
-      this.client = createClient({ 
-        url: this.redisTlsUrl, 
-        socket: {
-          tls: true,
-          rejectUnauthorized: false
-        }
-      });
-
-      console.log(`[redis] binding errors...`);
-      this.client.on('error', (err) => console.log('Redis Client Error', err));
-
-      console.log(`[redis] connecting...`);
-      return this.client.connect();
+    console.log(`[redis] creating client url=[${this.redisTlsUrl}]`);
+    this.client = createClient({ 
+      url: this.redisTlsUrl, 
+      socket: {
+        tls: true,
+        rejectUnauthorized: false
+      }
     });
+
+    console.log(`[redis] binding errors...`);
+    this.client.on('error', (err) => console.log('Redis Client Error', err));
+
+    console.log(`[redis] connecting...`);
+    await this.client.connect();
   }
 
   async set(key, value) {
