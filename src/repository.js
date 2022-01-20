@@ -64,10 +64,6 @@ class RedisConnection {
     this.redisUrl = process.env.REDIS_URL;
     this.redisTlsUrl = process.env.REDIS_TLS_URL;
     this.client = null;
-
-    if (RedisConnection.instance = null) {
-      RedisConnection.instance = this;
-    }
   }
 
   static getInstance() {
