@@ -17,7 +17,7 @@ class Application {
   }
 
   async #initializeRedisClient() {
-    RedisConnectionFactory.createRedisConnection();
+    return RedisConnectionFactory.createRedisConnection();
   }
 
   async #initializeServers() {
