@@ -84,8 +84,10 @@ class RedisConnection {
         }
       });
 
+      console.log(`[redis] binding errors...`);
       this.client.on('error', (err) => console.log('Redis Client Error', err));
 
+      console.log(`[redis] connecting...`);
       return this.client.connect();
     });
   }
