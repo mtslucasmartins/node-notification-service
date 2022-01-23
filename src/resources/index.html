@@ -9,7 +9,7 @@
     content="default-src *; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'">
   <title>Demo</title>
 
-  <script src="/js/app.js"></script>
+
 
 </head>
 
@@ -18,53 +18,20 @@
     <div class="container">
       <div class="websocket-channel-connector">
         <div class="websocket-connection-params">
-          <input type="text" placeholder="channel">
+          <input id="websocket-connection-uri" placeholder="uri" type="text">
+          <input id="websocket-connection-username" placeholder="channel" type="text">
+          <input id="websocket-connection-channel" placeholder="username" type="text">
+          <button id="websocket-connection-connect">
+            connect
+          </button>
         </div>
         <div class="websocket-connection-logs">
-
+          
         </div>
       </div>
     </div>
   </div>
-  <script>
-    let channel = '';
-    let username = ''
-
-    let uri = 'wss://ws-notifications-service.herokuapp.com';
-
-    if (channel)
-      uri = `${uri}/subscribe?channel=${channel}`;
-    if (username)
-      uri = `${uri}/subscribe?username=${username}`;
-
-    const connect = (() => {
-      let socket = new WebSocket(uri);
-
-      socket.onopen = (e) => {
-        // SocketService.store(alias, "MessageType.MESSAGE_CONNECT", '{"status":"open","message":"connection stablished"}');
-      };
-
-      socket.onmessage = (event) => {
-        // SocketService.store(alias, "MessageType.MESSAGE_RECEIVED", event.data);
-      };
-
-      socket.onclose = (event) => {
-        if (event.wasClean) {
-          // SocketService.store(alias, "MessageType.MESSAGE_DISCONNECT", `{"status":"close","message":"Connection closed cleanly, code=${event.code} reason=${event.reason}"}`);
-        } else {
-          // e.g. server process killed or network down
-          // event.code is usually 1006 in this case
-          // SocketServices.store(alias, "MessageType.MESSAGE_DISCONNECT", `{"status":"close","message":"Connection died"}`);
-        }
-      };
-
-      socket.onerror = (error) => {
-        // SocketService.store(alias, "MessageType.MESSAGE_ERROR", `{"status":"error","message":"${error.message}"}`);
-      };
-    });
-
-
-  </script>
+  <script src="/js/app.js"></script>
 </body>
 
 </html>
