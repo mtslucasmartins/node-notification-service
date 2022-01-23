@@ -19,5 +19,40 @@
       </div>
     </div>
   </div>
+  <script>
+    let channel = '';
+    let uesrname = ''
+
+    let uri = 'wss://ws-notifications-service.herokuapp.com';
+
+    if (channel) 
+      uri = `${uri}/subscribe?channel=${channel}`;
+    if (usernane)
+      uri = `${uri}/subscribe?username=${username}`;
+
+    let socket = new WebSocket(uri);
+
+    socket.onopen = (e) => {
+      // SocketService.store(alias, "MessageType.MESSAGE_CONNECT", '{"status":"open","message":"connection stablished"}');
+    };
+
+    socket.onmessage = (event) => {
+      // SocketService.store(alias, "MessageType.MESSAGE_RECEIVED", event.data);
+    };
+
+    socket.onclose = (event) => {
+      if (event.wasClean) {
+        // SocketService.store(alias, "MessageType.MESSAGE_DISCONNECT", `{"status":"close","message":"Connection closed cleanly, code=${event.code} reason=${event.reason}"}`);
+      } else {
+        // e.g. server process killed or network down
+        // event.code is usually 1006 in this case
+        // SocketServices.store(alias, "MessageType.MESSAGE_DISCONNECT", `{"status":"close","message":"Connection died"}`);
+      }
+    };
+
+    socket.onerror = (error) => {
+      // SocketService.store(alias, "MessageType.MESSAGE_ERROR", `{"status":"error","message":"${error.message}"}`);
+    };
+  </script>
 </body>
 </html>

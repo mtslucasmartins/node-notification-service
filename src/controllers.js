@@ -75,6 +75,20 @@ class MessagePublisherController extends BaseController {
 
 }
 
+
+class MessagePublisherController extends BaseController {
+
+  constructor(app) {
+    super(app, '/');
+  }
+
+  get(request, response, next) {
+    response.sendFile(path.join(__dirname, '/resources/index.html'));
+  }
+
+}
+
+
 module.exports = {
   BaseController,
   MessagePublisherController
