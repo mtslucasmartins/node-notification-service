@@ -74,7 +74,8 @@ btnWebsocketConnect.addEventListener('click', (e) => {
   websocketClient.setEventCallback((event) => {
     let wsLoggingTable = document.querySelector('#websocket-connection-logs table tbody');
 
-    wsLoggingTable.appendChild(`<tr>asd</tr>`)
+    const row = wsLoggingTable.insertRow(wsLoggingTable.rows.length);
+    row.innerHTML = `<tr>${JSON.stringify(event)}</tr>`;
   });
 
   websocketClient.connect();
