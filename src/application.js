@@ -44,6 +44,7 @@ class RestApplication {
   #registerControllers() {
     this.messagePublisherController = new MessagePublisherController(this.app);
     this.firebaseController = new FirebaseController(this.app);
+    this.indexController = new IndexController(this.app);
   }
 
   async initialize() {

@@ -76,7 +76,7 @@ class MessagePublisherController extends BaseController {
 }
 
 
-class MessagePublisherController extends BaseController {
+class IndexController extends BaseController {
 
   constructor(app) {
     super(app, '/');
@@ -91,5 +91,6 @@ class MessagePublisherController extends BaseController {
 
 module.exports = {
   BaseController,
+  IndexController,
   MessagePublisherController
 };
