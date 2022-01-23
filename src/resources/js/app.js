@@ -57,7 +57,7 @@ class WebSocketClient {
 
 let btnWebsocketConnect = document.getElementById('websocket-connection-connect');
 
-btnWebsocketConnect.onclick((e) => {
+btnWebsocketConnect.addEventListener('click', (e) => {
   let wsConnectionUri = document.getElementById('websocket-connection-uri').value;
   let wsConnectionChannel = document.getElementById('websocket-connection-channel').value;
   let wsConnectionUsername = document.getElementById('websocket-connection-username').value;
