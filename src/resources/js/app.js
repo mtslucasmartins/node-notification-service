@@ -8,9 +8,9 @@ class WebSocketClient {
     this.username = args.username;
 
     if (this.channel)
-      this.uri = `${uri}?channel=${channel}`;
+      this.uri = `${uri}?channel=${this.channel}`;
     else if (this.username)
-      this.uri = `${uri}?username=${username}`;
+      this.uri = `${uri}?username=${this.username}`;
 
     this.keepAliveInterval = null;
   }
