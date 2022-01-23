@@ -54,3 +54,15 @@ class WebSocketClient {
   onmessage() { }
 
 }
+
+let btnWebsocketConnect = document.getElementById('websocket-connection-connect');
+
+const createWebSocketClient = (() => {
+  let wsConnectionUri = document.getElementById('websocket-connection-uri');
+  let wsConnectionChannel = document.getElementById('websocket-connection-channel');
+  let wsConnectionUsername = document.getElementById('websocket-connection-username');
+
+  const args = { wsConnectionChannel, wsConnectionUsername };
+
+  const websocketClient = new WebSocketClient(wsConnectionUri, args);
+});
