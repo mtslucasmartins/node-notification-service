@@ -1,3 +1,4 @@
+const { BaseController } = require('./controllers');
 const { FirebaseService } = require('./firebase/firebase-service');
 
 class FirebaseController extends BaseController {
