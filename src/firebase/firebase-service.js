@@ -23,7 +23,7 @@ class FirebaseService {
 
   unsubscribe(username, registrationId) { return {}; } // TODO
 
-  pushNotification(username, applicationId, groupId, notification) {
+  async pushNotification(username, applicationId, groupId, notification) {
     const notificationDetails = { username, applicationId, groupId, notification };
     const application = await this.getApplication(applicationId);
 
@@ -32,6 +32,7 @@ class FirebaseService {
     this.getEndpointsByUsernameAndApplication(username, applicationId)
       .then((endpoints) => {
         console.log(`found ${endpoints.length} endpoints.`);
+        
         for (const endpoint of endpoints) {
           console.log('sending to: ' + JSON.stringify(endpoint));
           this.firebaseClient.push(notification, endpoint.registrationId, application.serverKey)
