@@ -59,8 +59,8 @@ class FirebaseApplicationRepository extends BaseRepository {
   async findById(applicationId) {
     const query = `
       SELECT 
-        a.application_id as applicationId,
-        a.server_key as serverKey
+        a.application_id as "applicationId",
+        a.server_key as "serverKey"
       FROM applications a
       WHERE a.application_id = $1
     `;

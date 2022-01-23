@@ -33,6 +33,7 @@ class FirebaseService {
       .then((endpoints) => {
         console.log(`found ${endpoints.length} endpoints.`);
         for (const endpoint of endpoints) {
+          console.log('sending to: ' + JSON.stringify(endpoint));
           this.firebaseClient.push(notification, endpoint.registrationId, application.serverKey)
             .then((response) => { console.log(`succeeded`); })
             .catch((error) => { console.log(`failed`)});
