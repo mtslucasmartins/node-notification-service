@@ -51,7 +51,6 @@ class FirebaseEndpointRepository extends BaseRepository {
     const args = [username, applicationId, registrationId];
     return this.query(query, args)
       .then((rows) => {
-        console.log(rows);
         return rows;
       })
       .catch((error) => {
@@ -73,7 +72,6 @@ class FirebaseEndpointRepository extends BaseRepository {
 
     return this.query(query, args)
       .then((rows) => {
-        console.log(rows);
         return rows;
       })
       .catch((error) => {
