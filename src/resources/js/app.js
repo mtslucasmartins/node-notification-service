@@ -65,4 +65,5 @@ const createWebSocketClient = (() => {
   const args = { wsConnectionChannel, wsConnectionUsername };
 
   const websocketClient = new WebSocketClient(wsConnectionUri, args);
+  websocketClient.connect();
 });
