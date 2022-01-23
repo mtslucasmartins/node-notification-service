@@ -52,9 +52,10 @@ class WSNotificationWorker {
     await this.consumer.subscribe();
 
     this.consumer.on('message', ({ topic, partition, message }) => {
-      console.log(`consuming new message - topic=[${topic}] partition=[${partition}]`, message);
+      const messageString = message.value.toString('utf8');
+      console.log(`consuming new message - topic=[${topic}] partition=[${partition}]`, messageString);
 
-      const notification = JSON.parse(message.value.toString('utf8'));
+      const notification = JSON.parse(messageString);
 
       this.notificationService.process(notification);
     });
