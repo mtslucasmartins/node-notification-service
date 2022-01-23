@@ -17,7 +17,7 @@ class WebSocketNotificationService {
 
     const channel = notification.channel;
     const username = notification.username;
-    const message = notification.message;
+    const message = notification.notification;
 
     this.producer.send(JSON.stringify({ channel, username, message }));
   }
@@ -25,7 +25,7 @@ class WebSocketNotificationService {
   process(notification) {
     const channel = notification.channel;
     const username = notification.username;
-    const message = notification.message;
+    const message = notification.notification;
 
     console.log(`processing notification - channel=[${channel}] username=[${username}]`);
 
