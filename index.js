@@ -3,18 +3,26 @@ const { WorkManager } = require('./src/workers');
 const { RestApplication } = require('./src/application');
 const { WebSocketServer } = require('./src/websocket');
 const { RedisConnectionFactory } = require('./src/repository');
+const { DatabaseConnectionFactory } = require('./src/database');
 
 class Application {
 
   constructor() {
-    this.#initializeRedisClient().then(() => {
+    Promise.all([
+      this.#initializeDatabaseConnection(),
+      this.#initializeRedisConnection()
+    ]).then(() => {
       this.#initializeWorkers().then(() => {
         this.#initializeServers();
       });
     });
   }
 
-  async #initializeRedisClient() {
+  async #initializeDatabaseConnection() {
+    return DatabaseConnectionFactory.createDatabaseConnection();
+  }
+
+  async #initializeRedisConnection() {
     return RedisConnectionFactory.createRedisConnection();
   }
 
