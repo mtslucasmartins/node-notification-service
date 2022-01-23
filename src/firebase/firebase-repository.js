@@ -30,8 +30,8 @@ class FirebaseEndpointRepository extends BaseRepository {
     const query = `
       SELECT 
         e.username,
-        e.application_id as applicationId,
-        e.registration_id as registrationId
+        e.application_id as 'applicationId',
+        e.registration_id as 'registrationId'
       FROM push_fcm_endpoints e
       WHERE e.username = $1
       AND e.application_id = $2
