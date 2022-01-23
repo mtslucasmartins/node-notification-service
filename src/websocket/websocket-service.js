@@ -2,6 +2,8 @@ const { WSConnectionRepository } = require('../repository');
 const { WSMessagingService } = require('../services');
 const { WSNotificationProducer } = require('../streams');
 
+const KAFKA_TOPIC = 'ottimizza.websocket-notifications.general';
+
 class WebSocketNotificationService {
 
   constructor() { 
