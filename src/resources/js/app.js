@@ -1,6 +1,7 @@
 class WebSocketClient {
 
   constructor(uri, args) {
+    this.socket = null;
     this.uri = uri;
 
     this.channel = args.channel;
