@@ -20,42 +20,48 @@ class FirebaseService {
 
   saveNotificationDetails(notificationDetails) { return {}; } // TODO
 
-  subscribe(username, registrationId, applicationId) { return {}; } // TODO
+  createFCMEndpoint(username, registrationId, applicationId) { return {}; } // TODO
 
-  unsubscribe(username, registrationId) { return {}; } // TODO
-
-  async pushNotification(username, applicationId, groupId, notification) {
-    const notificationDetails = { username, applicationId, groupId, notification };
-    const application = await this.getApplication(applicationId);
-
-    this.saveNotificationDetails(notificationDetails);
-
-    this.getEndpointsByUsernameAndApplication(username, applicationId)
-      .then((endpoints) => {
-        console.log(`found ${endpoints.length} endpoints.`);
-
-        for (const endpoint of endpoints) {
-          console.log('sending to: ' + JSON.stringify(endpoint));
-          this.firebaseClient.push(notification, endpoint.registrationId, application.serverKey)
-            .then((response) => { 
-              if (this.fcmNotificationFailed(response) && this.isInvalidRegistrationId(response)) {
-                console.log(`the registration_id is no longer valid.`, endpoint.registrationId);
-              } else {
-                console.log(`notification sent to registration_id`, endpoint.registrationId);
-              }
-            })
-            .catch((error) => { console.log(`failed`, error)});
-        }
-      });
+  async deleteFCMEndpoint(username, registrationId, applicationId) {
+    return this.firebaseEndpointRepository.deleteByUsernameAndApplicationIdAndRegistrationId(username, applicationId, registrationId)
   }
 
-  fcmNotificationFailed(fcmPushResponse) {
+  async pushNotification(username, applicationId, groupId, notification) {
+    const application = await this.getApplication(applicationId);
+
+    // const notificationDetails = { username, applicationId, groupId, notification };
+    // this.saveNotificationDetails(notificationDetails);
+
+    this.getEndpointsByUsernameAndApplication(username, applicationId).then((endpoints) => {
+      console.log(`Found ${endpoints.length} FCM Endpoints - username=[${username}] applicationId=[${applicationId}]`);
+
+      for (const endpoint of endpoints) {
+        const registrationId = endpoint.registrationId;
+        console.log(`Sending FCM Notification - username=[${username}] applicationId=[${applicationId}] endpoint=[${registrationId}]`);
+
+        this.firebaseClient.push(notification, registrationId, application.serverKey)
+          .then((response) => {
+            if (this.#fcmNotificationFailed(response) && this.#isInvalidRegistrationId(response)) {
+              console.log(`FCM Push - Failed - username=[${username}] applicationId=[${applicationId}] endpoint=[${registrationId}]`);
+              this.deleteFCMEndpoint(username, applicationId, registrationId);
+            } else {
+              console.log(`FCM Push - Success - username=[${username}] applicationId=[${applicationId}] endpoint=[${registrationId}]`);
+            }
+          })
+          .catch((error) => { 
+            console.log(`FCM Push - Unexpected - username=[${username}] applicationId=[${applicationId}] endpoint=[${registrationId}]`, error);
+          });
+      }
+    });
+  }
+
+  #fcmNotificationFailed(fcmPushResponse) {
     return fcmPushResponse.data && fcmPushResponse.data.failure > 0;
   }
 
-  isInvalidRegistrationId(fcmPushResponse) {
+  #isInvalidRegistrationId(fcmPushResponse) {
     const results = fcmPushResponse.data.results;
-    const errors = [ 'NotRegistered', 'InvalidRegistration' ];
+    const errors = ['NotRegistered', 'InvalidRegistration'];
 
     return results.some((r) => errors.includes(r.error));
   }

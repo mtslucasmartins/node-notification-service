@@ -26,6 +26,24 @@ class FirebaseEndpointRepository extends BaseRepository {
 
   constructor() { super(); }
 
+  async deleteByUsernameAndApplicationIdAndRegistrationId(username, applicationId, registrationId) {
+    const query = `
+      DELETE FROM push_fcm_endpoints
+      WHERE username = $1
+        AND application_id = $2
+        AND registration_id = $3
+    `;
+    const args = [username, applicationId, registrationId];
+    return this.query(query, args)
+      .then((rows) => {
+        console.log(rows);
+        return rows;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
   async findByUsernameAndApplicationId(username, applicationId) {
     const query = `
       SELECT 
