@@ -25,7 +25,7 @@ class FirebaseService {
 
   pushNotification(username, applicationId, groupId, notification) {
     const notificationDetails = { username, applicationId, groupId, notification };
-    const application = this.getApplication(applicationId);
+    const application = await this.getApplication(applicationId);
 
     this.saveNotificationDetails(notificationDetails);
 
