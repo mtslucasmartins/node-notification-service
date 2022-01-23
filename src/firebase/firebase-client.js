@@ -20,13 +20,7 @@ class FirebaseClient {
     const url = FirebaseClient.FIREBASE_PUSH_URL;
     const options = { headers: headers };
 
-    return axios.post(url, payload, options)
-      .then((response) => {
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    return axios.post(url, payload, options);
   }
 
   /**
