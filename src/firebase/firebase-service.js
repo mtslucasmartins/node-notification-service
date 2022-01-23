@@ -9,12 +9,12 @@ class FirebaseService {
     this.firebaseEndpointRepository = new FirebaseEndpointRepository();
   }
 
-  async getApplication(applicationId) { 
-    return this.firebaseApplicationRepository.findById(applicationId); 
+  async getApplication(applicationId) {
+    return this.firebaseApplicationRepository.findById(applicationId);
   }
 
-  async getEndpointsByUsernameAndApplication(username, applicationId) { 
-    return this.firebaseEndpointRepository.findByUsernameAndApplicationId(username, applicationId); 
+  async getEndpointsByUsernameAndApplication(username, applicationId) {
+    return this.firebaseEndpointRepository.findByUsernameAndApplicationId(username, applicationId);
   }
 
   saveNotificationDetails(notificationDetails) { return {}; } // TODO
@@ -29,14 +29,15 @@ class FirebaseService {
 
     this.saveNotificationDetails(notificationDetails);
 
-    const endpoints = this.getEndpointsByUsernameAndApplication(username, applicationId);
-
-    for (const endpoint of endpoints) {
-      this.firebaseClient.push(notification, endpoint.registrationId, application.serverKey)
-        .then((response) => { })
-        .catch((error) => { });
-    }
-
+    this.getEndpointsByUsernameAndApplication(username, applicationId)
+      .then((endpoints) => {
+        console.log(`found ${endpoints.length} endpoints.`);
+        for (const endpoint of endpoints) {
+          this.firebaseClient.push(notification, endpoint.registrationId, application.serverKey)
+            .then((response) => { console.log(`succeeded`); })
+            .catch((error) => { console.log(`failed`)});
+        }
+      });
   }
 
 }
