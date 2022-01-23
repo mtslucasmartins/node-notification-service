@@ -13,6 +13,7 @@ class WebSocketClient {
       this.uri = `${uri}?username=${this.username}`;
 
     this.keepAliveInterval = null;
+    this.callback = ((event) => {});
   }
 
   keepAlive() {
@@ -22,37 +23,40 @@ class WebSocketClient {
     }, 5000);
   }
 
+  setEventCallback(callback) {
+    this.callback = callback;
+  }
+
   connect() {
     this.socket = new WebSocket(this.uri);
 
     this.socket.onopen = (e) => {
       const message = { type: 'open', message: 'connection stablished' };
+      this.callback(message);
       this.keepAlive();
     };
 
     this.socket.onmessage = (event) => {
       const message = { type: 'message', message: event.data };
+      this.callback(message);
     };
 
     this.socket.onclose = (event) => {
       if (event.wasClean) {
         const message = { type: 'close', message: 'connection closed', wasClean: true };
+        this.callback(message);
       } else {
         const message = { type: 'close', message: 'connection closed', wasClean: false };
+       this.callback(message); 
       }
     };
 
     this.socket.onerror = (error) => {
       const message = { type: 'error', message: error.message };
+      this.callback(message);
     };
 
   }
-
-  onopen() { }
-
-  onclose() { }
-
-  onmessage() { }
 
 }
 
@@ -66,5 +70,12 @@ btnWebsocketConnect.addEventListener('click', (e) => {
   const args = { channel: wsConnectionChannel, username: wsConnectionUsername };
 
   const websocketClient = new WebSocketClient(wsConnectionUri, args);
+
+  websocketClient.setEventCallback((event) => {
+    let wsLoggingTable = document.querySelector('#websocket-connection-logs table tbody');
+
+    wsLoggingTable.appendChild(`<tr>asd</tr>`)
+  });
+
   websocketClient.connect();
 });
