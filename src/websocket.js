@@ -72,7 +72,7 @@ class WebSocketServer {
   }
 
   onMessage(ws, data) {
-    console.error(`onMessage: ${data}`);
+    // console.error(`onMessage: ${data}`);
   }
 
   onConnection(ws, req) {

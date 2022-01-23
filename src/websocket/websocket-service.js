@@ -39,7 +39,7 @@ class WebSocketNotificationService {
   }
 
   #sendMessageByChannel(message, channel) {
-    console.log(`sending message - channel=[${channel}]`);
+    console.log(`sending message - channel=[${channel}]`, message);
 
     this.repository.findByChannel(channel)
       .forEach(([key, value]) => {
@@ -50,7 +50,7 @@ class WebSocketNotificationService {
   }
 
   #sendMessageByUsername(message, username) {
-    console.log(`sending message - username=[${username}]`);
+    console.log(`sending message - username=[${username}]`, message);
     this.repository.findByUsername(username)
       .forEach(([key, value]) => {
         // TODO: remove this line switch for 'value'
