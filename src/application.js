@@ -39,6 +39,8 @@ class RestApplication {
 
     // 
     this.app.use(morgan('dev'));
+
+    app.use(express.static('resources'));
   }
 
   #registerControllers() {
