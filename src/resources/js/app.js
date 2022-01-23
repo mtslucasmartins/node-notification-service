@@ -63,7 +63,7 @@ btnWebsocketConnect.addEventListener('click', (e) => {
   let wsConnectionChannel = document.getElementById('websocket-connection-channel').value;
   let wsConnectionUsername = document.getElementById('websocket-connection-username').value;
 
-  const args = { wsConnectionChannel, wsConnectionUsername };
+  const args = { channel: wsConnectionChannel, username: wsConnectionUsername };
 
   const websocketClient = new WebSocketClient(wsConnectionUri, args);
   websocketClient.connect();
