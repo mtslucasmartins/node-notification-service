@@ -57,10 +57,10 @@ class WebSocketClient {
 
 let btnWebsocketConnect = document.getElementById('websocket-connection-connect');
 
-const createWebSocketClient = (() => {
-  let wsConnectionUri = document.getElementById('websocket-connection-uri');
-  let wsConnectionChannel = document.getElementById('websocket-connection-channel');
-  let wsConnectionUsername = document.getElementById('websocket-connection-username');
+btnWebsocketConnect.onclick((e) => {
+  let wsConnectionUri = document.getElementById('websocket-connection-uri').value;
+  let wsConnectionChannel = document.getElementById('websocket-connection-channel').value;
+  let wsConnectionUsername = document.getElementById('websocket-connection-username').value;
 
   const args = { wsConnectionChannel, wsConnectionUsername };
 
