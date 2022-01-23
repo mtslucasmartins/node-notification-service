@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const { v4: uuidv4 } = require('uuid');
 
-const { MessagePublisherController } = require('./controllers');
+const { MessagePublisherController, IndexController } = require('./controllers');
 const { FirebaseController } = require('./controller-firebase');
 
 
