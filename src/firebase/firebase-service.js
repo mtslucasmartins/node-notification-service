@@ -24,7 +24,7 @@ class FirebaseService {
   unsubscribe(username, registrationId) { return {}; } // TODO
 
   pushNotification(username, applicationId, groupId, notification) {
-    const notificationDetails = { username, applicationId, groupId, message };
+    const notificationDetails = { username, applicationId, groupId, notification };
     const application = this.getApplication(applicationId);
 
     this.saveNotificationDetails(notificationDetails);

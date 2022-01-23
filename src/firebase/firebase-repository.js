@@ -27,12 +27,21 @@ class FirebaseEndpointRepository extends BaseRepository {
   constructor() { super(); }
 
   async findByUsernameAndApplicationId(username, applicationId) {
-    const query = ``;
-    const args = [];
+    const query = `
+      SELECT 
+        e.username,
+        e.application_id as applicationId,
+        e.registration_id as registrationId
+      FROM push_fcm_endpoints e
+      WHERE e.username = $1
+      AND e.application_id = $2
+    `;
+    const args = [username, applicationId];
 
     return this.query(query, args)
       .then((rows) => {
         console.log(rows);
+        return rows;
       })
       .catch((error) => {
         console.log(error);
@@ -47,13 +56,20 @@ class FirebaseApplicationRepository extends BaseRepository {
 
   constructor() { super(); }
 
-  async findById() {
-    const query = ``;
-    const args = [];
+  async findById(applicationId) {
+    const query = `
+      SELECT 
+        a.application_id as applicationId,
+        a.server_key as serverKey
+      FROM applications a
+      WHERE a.application_id = $1
+    `;
+    const args = [applicationId];
 
     return this.query(query, args)
       .then((rows) => {
         console.log(rows);
+        return rows[0];
       })
       .catch((error) => {
         console.log(error);
