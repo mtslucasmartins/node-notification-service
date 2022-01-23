@@ -4,6 +4,9 @@ const config = {
     port: process.env.PORT
   },
   resources: {
+    postgresql: {
+      url: process.env.DATABASE_URL
+    },
     redis: {
       url: process.env.REDIS_URL,
       tlsUrl: process.env.REDIS_TLS_URL

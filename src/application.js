@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const { v4: uuidv4 } = require('uuid');
 
 const { MessagePublisherController } = require('./controllers');
+const { FirebaseController } = require('./controller-firebase');
 
 
 class RestApplication {
@@ -42,6 +43,7 @@ class RestApplication {
 
   #registerControllers() {
     this.messagePublisherController = new MessagePublisherController(this.app);
+    this.firebaseController = new FirebaseController(this.app);
   }
 
   async initialize() {

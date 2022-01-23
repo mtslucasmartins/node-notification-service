@@ -76,5 +76,6 @@ class MessagePublisherController extends BaseController {
 }
 
 module.exports = {
+  BaseController,
   MessagePublisherController
 };
