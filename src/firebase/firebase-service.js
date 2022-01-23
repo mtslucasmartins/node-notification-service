@@ -1,3 +1,4 @@
+const { response } = require('express');
 const { FirebaseClient } = require('./firebase-client');
 const { FirebaseApplicationRepository, FirebaseEndpointRepository } = require('./firebase-repository');
 
@@ -32,14 +33,31 @@ class FirebaseService {
     this.getEndpointsByUsernameAndApplication(username, applicationId)
       .then((endpoints) => {
         console.log(`found ${endpoints.length} endpoints.`);
-        
+
         for (const endpoint of endpoints) {
           console.log('sending to: ' + JSON.stringify(endpoint));
           this.firebaseClient.push(notification, endpoint.registrationId, application.serverKey)
-            .then((response) => { console.log(`succeeded`, response); })
+            .then((response) => { 
+              if (this.fcmNotificationFailed(response) && this.isInvalidRegistrationId(response)) {
+                console.log(`the registration_id is no longer valid.`, endpoint.registrationId);
+              } else {
+                console.log(`notification sent to registration_id`, endpoint.registrationId);
+              }
+            })
             .catch((error) => { console.log(`failed`, error)});
         }
       });
+  }
+
+  fcmNotificationFailed(fcmPushResponse) {
+    return fcmPushResponse.data && fcmPushResponse.data.failure > 0;
+  }
+
+  isInvalidRegistrationId(fcmPushResponse) {
+    const results = fcmPushResponse.data.results;
+    const errors = [ 'NotRegistered', 'InvalidRegistration' ];
+
+    return results.some((r) => errors.includes(r.error));
   }
 
 }
