@@ -1,4 +1,4 @@
-const { WSNotificationService } = require('./services');
+const { WebSocketNotificationService } = require('./websocket/websocket-service');
 
 class HttpMethod {
   static GET = 'GET';
@@ -62,7 +62,7 @@ class MessagePublisherController extends BaseController {
   constructor(app) {
     super(app, '/api/v1/notifications');
 
-    this.notificationService = new WSNotificationService();
+    this.notificationService = new WebSocketNotificationService(); 
   }
 
   post(request, response, next) {
