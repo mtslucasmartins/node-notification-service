@@ -12,20 +12,20 @@ class WebSocketNotificationService {
     this.repository = new WSConnectionRepository();
   }
 
-  async publish(notification) {
+  async publish(payload) {
     await this.producer.connect();
 
-    const channel = notification.channel;
-    const username = notification.username;
-    const message = notification.notification;
+    const channel = payload.channel;
+    const username = payload.username;
+    const notification = payload.notification;
 
-    this.producer.send(JSON.stringify({ channel, username, message }));
+    this.producer.send(JSON.stringify({ channel, username, notification }));
   }
 
-  process(notification) {
-    const channel = notification.channel;
-    const username = notification.username;
-    const message = notification.notification;
+  process(payload) {
+    const channel = payload.channel;
+    const username = payload.username;
+    const message = payload.notification;
 
     console.log(`processing notification - channel=[${channel}] username=[${username}]`);
 
