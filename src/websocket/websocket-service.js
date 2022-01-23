@@ -60,7 +60,7 @@ class WebSocketNotificationService {
   }
 
   notEmpty(value) {
-    return (typeof value !== 'undefined' || value !== null || value !== '');
+    return (typeof value !== 'undefined' && value !== null && value !== '');
   }
 
 }
