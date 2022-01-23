@@ -89,7 +89,6 @@ class IndexController extends BaseController {
 
 }
 
-
 module.exports = {
   BaseController,
   IndexController,
