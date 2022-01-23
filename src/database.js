@@ -40,7 +40,11 @@ class DatabaseConnection {
       return this.pool.connect();
 
     console.log(`[database] creating pool url=[${this.databaseUrl}]`);
-    this.pool = new Pool({ connectionString: this.databaseUrl });
+    this.pool = new Pool({
+      connectionString: this.databaseUrl, ssl: {
+        rejectUnauthorized: false
+      }
+    });
 
     console.log(`[database] connecting to pool...`);
     return this.pool.connect();
