@@ -22,7 +22,7 @@ class FirebaseService {
 
   createFCMEndpoint(username, registrationId, applicationId) { return {}; } // TODO
 
-  async deleteFCMEndpoint(username, registrationId, applicationId) {
+  async deleteFCMEndpoint(username, applicationId, registrationId) {
     return this.firebaseEndpointRepository.deleteByUsernameAndApplicationIdAndRegistrationId(username, applicationId, registrationId)
   }
 

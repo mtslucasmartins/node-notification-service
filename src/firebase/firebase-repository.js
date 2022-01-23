@@ -4,6 +4,21 @@ class BaseRepository {
 
   constructor() { }
 
+  async delete(query, args) {
+    return DatabaseConnection.getConnection()
+      .then((client) => {
+        return client.query(query, args)
+          .then((response) => {
+            client.release();
+            return response.rows;
+          })
+          .catch((error) => {
+            client.release();
+            throw error;
+          });
+      });
+  }
+
   async query(query, args) {
     return DatabaseConnection.getConnection()
       .then((client) => {
