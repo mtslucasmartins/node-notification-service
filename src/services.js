@@ -159,11 +159,13 @@ class WSInstanceService {
         instances.push(instanceId);
         this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, JSON.stringify(instances));
       }
+
+      return instance;
     } catch (error) {
       console.log(`[ws-instance-service] something went wrong saving instance - instance:[${instanceId}]`, error);
     }
-    
-    return instance; 
+
+    return null; 
   }
 
 }
