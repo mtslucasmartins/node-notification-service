@@ -118,43 +118,51 @@ class WSInstanceService {
   }
 
   async get(instanceId) {
-    return this.instanceRepository.get(instanceId);
+    const instance = await this.instanceRepository.get(instanceId);
+    return !!instance ? JSON.parse(instance) : null;
   }
 
   async getAllKeys() {
-    return this.get(WSInstanceService.INSTANCES_KEY);
+    const instances = await this.get(WSInstanceService.INSTANCES_KEY);
+    return !!instances ? JSON.parse(instances) : null;
   }
 
   async save(instanceId) {
-    let instance = this.get(instanceId);
-    let isNewInstance = false;
-    const createdAt = new Date();
-    const updatedAt = new Date();
+    console.log(`[ws-instance-service] saving instance - instance:[${instanceId}]`);
 
-    if (instance == null) {
-      // creating a brand new instance. TODO: create a redis lock.
-      const consumer = this.consumerService.getAvailableConsumer();
-      instance = { consumer, instanceId, updatedAt, createdAt };
-      isNewInstance = true;
-    } else {
-      // only updates it, so the cleaning job doesn't kill it
-      instance = Object.assign(instance, { updatedAt });
-    }
+    try {
 
-    // saving the instance to Redis.
-    this.instanceRepository.set(instanceId, JSON.stringify(instance));
+      let instance = await this.get(instanceId);
+      let isNewInstance = false;
+      const createdAt = new Date();
+      const updatedAt = new Date();
 
-    // we also need to update the key containing all instances
-    if (isNewInstance) {
-      let instances = await this.instanceRepository.get(WSInstanceService.INSTANCES_KEY);
-      if (!instances) {
-        instances = '[]';
+      if (instance == null) {
+        // creating a brand new instance. TODO: create a redis lock.
+        const consumer = await this.consumerService.getAvailableConsumer();
+        instance = { consumer, instanceId, updatedAt, createdAt };
+        console.log(`[ws-instance-service] creating brand new instance - details:[${JSON.parse(instance)}]`);
+
+        isNewInstance = true;
+      } else {
+        console.log(`[ws-instance-service] updating existing instance - details:[${JSON.parse(instance)}]`);
+        instance = Object.assign(instance, { updatedAt });
       }
-      const allInstances = JSON.parse(instances);
-      allInstances.push(instanceId);
-      this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, JSON.stringify(allInstances));
-    }
 
+      console.log(`[ws-instance-service] saving instance - instance:[${instanceId}]`);
+      this.instanceRepository.set(instanceId, JSON.stringify(instance));
+
+      // we also need to update the key containing all instances
+      if (isNewInstance) {
+        console.log(`[ws-instance-service] adding instance to active instances array - instance:[${instanceId}]`);
+        let instances = await this.instanceRepository.get(WSInstanceService.INSTANCES_KEY);
+        instances.push(instanceId);
+        this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, JSON.stringify(instances));
+      }
+    } catch (error) {
+      console.log(`[ws-instance-service] something went wrong saving instance - instance:[${instanceId}]`, error);
+    }
+    
     return instance; 
   }
 
