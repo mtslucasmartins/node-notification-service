@@ -14,9 +14,10 @@ class InstancePrunerWorker {
 
   async run() {
     const prune = (() => {
-      console.log(`[instance-pruner-worker] pruning instances`);
-      const instances = this.instanceService.getAllKeys();
+      const instances = JSON.parse(this.instanceService.getAllKeys());
       const currentTime = new Date();
+      
+      console.log(`[instance-pruner-worker] pruning instances - total:[${instances.lnegth}]`);
 
       for (const instanceId of instances) {
         const instance = this.instanceService.get(instanceId);
