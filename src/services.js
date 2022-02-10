@@ -123,15 +123,17 @@ class WSInstanceService {
   }
 
   async getAllKeys() {
-    const instances = await this.get(WSInstanceService.INSTANCES_KEY);
     try {
-      console.log(`[ws-instance-service] fetching instances '${instances}'`);
-      let json = JSON.parse(instances);
-      console.log(`[ws-instance-service] fetching instances`, json);
-    } catch(e) {
-      console.log(e);
+      const instances = await this.get(WSInstanceService.INSTANCES_KEY);
+      
+      console.log(`[ws-instance-service] fetching instances - [${!!instances}] instances:['${instances}']`);
+      if (!!instances) {
+        return JSON.parse(instances);
+      }
+    } catch (e) {
+      console.log(`[ws-instance-service] something went wrong fetching active instances!`);
     }
-    return !!instances ? JSON.parse(instances) : null;
+    return [];
   }
 
   async save(instanceId) {
@@ -163,7 +165,7 @@ class WSInstanceService {
         console.log(`[ws-instance-service] adding instance to active instances array - instance:[${instanceId}]`);
         this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, JSON.stringify([]));
         let instances = await this.getAllKeys() || []; // defaults to empty array
-        
+
         instances.push(instanceId);
         this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, JSON.stringify(instances));
       }
@@ -173,7 +175,7 @@ class WSInstanceService {
       console.log(`[ws-instance-service] something went wrong saving instance - instance:[${instanceId}]`, error);
     }
 
-    return null; 
+    return null;
   }
 
 }
