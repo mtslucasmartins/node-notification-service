@@ -35,6 +35,7 @@ class InstanceHealthcheckWorker {
   }
   
   async run() {
+    console.log(`[instance-healthcheck-worker] saving instance - instance:[${RestApplication.INSTANCE_ID}]`);
     this.instanceService.save(RestApplication.INSTANCE_ID);
   }
 
@@ -72,6 +73,7 @@ class WorkManager {
     const instancePrunerWorker = new InstancePrunerWorker();
     const notificationWorker = new WSNotificationWorker();
 
+    console.log("[work-manager] registering workers");
     this.register(instanceHealthcheckWorker);
     this.register(instancePrunerWorker);
     this.register(notificationWorker);
