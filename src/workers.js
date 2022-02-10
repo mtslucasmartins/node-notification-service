@@ -23,8 +23,6 @@ class InstancePrunerWorker {
           this.instanceService.get(instanceId).then(async (instance) => {
             console.log(`[instance-pruner-worker] checking instance - instance:[${JSON.stringify(instance)}]`);
             if (!!instance) {
-              console.log(instance);
-              console.log(instance.updatedAt);
               const updatedAt = new Date(instance.updatedAt);
               const difference = (currentTime - updatedAt) / 1000;
               if (difference > 25) {
