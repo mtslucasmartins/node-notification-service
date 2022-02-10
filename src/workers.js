@@ -27,7 +27,7 @@ class InstancePrunerWorker {
               console.log(instance.updatedAt);
               const updatedAt = new Date(instance.updatedAt);
               const difference = (currentTime - updatedAt) / 1000;
-              if (difference > 15) {
+              if (difference > 25) {
                 await this.instanceService.prune(instanceId);
               }
             } else {
