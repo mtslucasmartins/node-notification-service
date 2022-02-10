@@ -9,21 +9,25 @@ class InstancePrunerWorker {
   
   constructor() {
     this.instanceService = new WSInstanceService();
+    this.interval = null;
   }
 
   async run() {
     const prune = (() => {
+      console.log(`[instance-pruner-worker] pruning instances`);
       const instances = this.instanceService.getAllKeys();
-      console.log(instances);
+      const currentTime = new Date();
 
       for (const instanceId of instances) {
         const instance = this.instanceService.get(instanceId);
-
-        console.log(instanceId);
+        console.log(`[instance-pruner-worker] checking instance - instance:[${instanceId}]`, instance);
         // check if instance.updatedAt is recent (15 seconds)
         // if it is, great - if it's not, delete that key.
       }
     });
+    this.interval = setInterval(() => {
+      prune();
+    }, 5000);
   }
 
 } 
