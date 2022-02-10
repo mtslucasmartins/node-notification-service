@@ -27,7 +27,7 @@ class InstancePrunerWorker {
         // if it is, great - if it's not, delete that key.
       }
     });
-    this.interval = setInterval(() => {
+    this.interval = setInterval(async () => {
       await prune();
     }, 5000);
   }
