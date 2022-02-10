@@ -27,11 +27,11 @@ class InstancePrunerWorker {
               console.log(instance.updatedAt);
               const updatedAt = new Date(instance.updatedAt);
               const difference = (currentTime - updatedAt) / 1000;
-              if (difference > 15) { 
+              if (difference > 15) {
                 await this.instanceService.prune(instanceId);
               }
             } else {
-                await this.instanceService.prune(instanceId);
+              await this.instanceService.prune(instanceId);
             }
           });
         }
@@ -41,7 +41,7 @@ class InstancePrunerWorker {
     });
     this.interval = setInterval(async () => {
       prune();
-    }, 5000);
+    }, 25000);
   }
 
 }
@@ -53,8 +53,12 @@ class InstanceHealthcheckWorker {
   }
 
   async run() {
-    console.log(`[instance-healthcheck-worker] saving instance - instance:[${RestApplication.INSTANCE_ID}]`);
-    this.instanceService.save(RestApplication.INSTANCE_ID);
+
+
+    this.interval = setInterval(async () => {
+      console.log(`[instance-healthcheck-worker] saving instance - instance:[${RestApplication.INSTANCE_ID}]`);
+      this.instanceService.save(RestApplication.INSTANCE_ID);
+    }, 10000);
   }
 
 }
