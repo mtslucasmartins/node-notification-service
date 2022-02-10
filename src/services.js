@@ -124,7 +124,13 @@ class WSInstanceService {
 
   async getAllKeys() {
     const instances = await this.get(WSInstanceService.INSTANCES_KEY);
-    console.log(`[ws-instance-service] fetching instances`, instances);
+    try {
+      console.log(`[ws-instance-service] fetching instances '${instances}'`);
+      let json = JSON.parse(instances);
+      console.log(`[ws-instance-service] fetching instances`, json);
+    } catch(e) {
+      console.log(e);
+    }
     return !!instances ? JSON.parse(instances) : null;
   }
 
