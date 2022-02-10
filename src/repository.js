@@ -98,6 +98,11 @@ class RedisConnection {
     return this.client.get(key);
   }
 
+  async del(key) {
+    return this.client.del(key);
+  }
+
+
 }
 
 class WSInstanceRepository {
@@ -110,7 +115,7 @@ class WSInstanceRepository {
   }
 
   async set(key, value) {
-    this.redisClient.set(key, value);
+    return this.redisClient.set(key, value);
   }
   
   async get(key) {
@@ -118,7 +123,7 @@ class WSInstanceRepository {
   }
 
   async del(key) {
-    this.redisClient.del(key);
+    return this.redisClient.del(key);
   }
 
 }
