@@ -129,14 +129,14 @@ class WSInstanceService {
       const arrStr = JSON.stringify(arr);
       console.log(`[ws-instance-service] @@empty array before`, arrStr);
       await this.instanceRepository.set('arr', arrStr);
-      const arrStrAfter = this.instanceRepository.get(`arr`);
+      const arrStrAfter = await this.instanceRepository.get(`arr`);
       console.log(`[ws-instance-service] @@empty array after`, arrStrAfter);
       console.log(`[ws-instance-service] @@empty array after parsed`, JSON.parse(arrStrAfter));
       console.log(`[ws-instance-service] @@`);
     } catch (e) {
       console.log(`[ws-instance-service]`);
     }
-    
+
     try {
       const instances = await this.get(WSInstanceService.INSTANCES_KEY);
 
