@@ -131,7 +131,6 @@ class WSInstanceService {
     console.log(`[ws-instance-service] saving instance - instance:[${instanceId}]`);
 
     try {
-
       let instance = await this.get(instanceId);
       let isNewInstance = false;
       const createdAt = new Date();
@@ -141,11 +140,11 @@ class WSInstanceService {
         // creating a brand new instance. TODO: create a redis lock.
         const consumer = await this.consumerService.getAvailableConsumer();
         instance = { consumer, instanceId, updatedAt, createdAt };
-        console.log(`[ws-instance-service] creating brand new instance - details:[${JSON.parse(instance)}]`);
+        console.log(`[ws-instance-service] creating brand new instance - details:[${JSON.stringify(instance)}]`);
 
         isNewInstance = true;
       } else {
-        console.log(`[ws-instance-service] updating existing instance - details:[${JSON.parse(instance)}]`);
+        console.log(`[ws-instance-service] updating existing instance - details:[${JSON.stringify(instance)}]`);
         instance = Object.assign(instance, { updatedAt });
       }
 
