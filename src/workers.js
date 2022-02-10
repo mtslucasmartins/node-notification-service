@@ -15,7 +15,7 @@ class InstancePrunerWorker {
   async run() {
     const prune = (() => {
       console.log(`[instance-pruner-worker] pruning instances`);
-      const instances = this.instanceService.getAllKeys();
+      const instances = await this.instanceService.getAllKeys();
       const currentTime = new Date();
 
       console.log(`[instance-pruner-worker] found instances`, instances);
