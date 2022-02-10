@@ -146,7 +146,11 @@ class WSInstanceService {
 
     // we also need to update the key containing all instances
     if (isNewInstance) {
-      const allInstances = JSON.parse(this.instanceRepository.get(WSInstanceService.INSTANCES_KEY));
+      let instances = await this.instanceRepository.get(WSInstanceService.INSTANCES_KEY);
+      if (!instances) {
+        instances = '[]';
+      }
+      const allInstances = JSON.parse(instances);
       allInstances.push(instanceId);
       this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, JSON.stringify(allInstances));
     }
