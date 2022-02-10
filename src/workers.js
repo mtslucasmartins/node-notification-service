@@ -25,6 +25,8 @@ class InstancePrunerWorker {
           // check if instance.updatedAt is recent (15 seconds)
           // if it is, great - if it's not, delete that key.
         }
+      }).catch((error) => {
+        console.log(`[instance-pruner-worker] error pruning instances`, error);
       });
     });
     this.interval = setInterval(() => {
