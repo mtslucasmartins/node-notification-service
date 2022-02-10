@@ -6,46 +6,46 @@ const { WebSocketNotificationService } = require('./websocket/websocket-service'
 const KAFKA_TOPIC = 'ottimizza.websocket-notifications.general';
 
 class InstancePrunerWorker {
-  
+
   constructor() {
     this.instanceService = new WSInstanceService();
     this.interval = null;
   }
 
   async run() {
-    const prune = async (() => {
+    const prune = async(() => {
       console.log(`[instance-pruner-worker] pruning instances`);
-      const instances = await this.instanceService.getAllKeys();
-      const currentTime = new Date();
+      this.instanceService.getAllKeys().then((instances) => {
+        console.log(`[instance-pruner-worker] found instances`, instances);
+        const currentTime = new Date();
 
-      console.log(`[instance-pruner-worker] found instances`, instances);
-
-      for (const instanceId of instances) {
-        const instance = this.instanceService.get(instanceId);
-        console.log(`[instance-pruner-worker] checking instance - instance:[${instanceId}]`, instance);
-        // check if instance.updatedAt is recent (15 seconds)
-        // if it is, great - if it's not, delete that key.
-      }
+        for (const instanceId of instances) {
+          const instance = this.instanceService.get(instanceId);
+          console.log(`[instance-pruner-worker] checking instance - instance:[${instanceId}]`, instance);
+          // check if instance.updatedAt is recent (15 seconds)
+          // if it is, great - if it's not, delete that key.
+        }
+      });
     });
-    this.interval = setInterval(async () => {
-      await prune();
+    this.interval = setInterval(() => {
+      prune();
     }, 5000);
   }
 
-} 
+}
 
 class InstanceHealthcheckWorker {
-  
+
   constructor() {
     this.instanceService = new WSInstanceService();
   }
-  
+
   async run() {
     console.log(`[instance-healthcheck-worker] saving instance - instance:[${RestApplication.INSTANCE_ID}]`);
     this.instanceService.save(RestApplication.INSTANCE_ID);
   }
 
-} 
+}
 
 class WSNotificationWorker {
 
