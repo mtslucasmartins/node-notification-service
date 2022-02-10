@@ -158,6 +158,7 @@ class WSInstanceService {
         let instances = await this.getAllKeys() || []; // defaults to empty array
         
         instances.push(instanceId);
+        this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, JSON.stringify([]));
         this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, JSON.stringify(instances));
       }
 
