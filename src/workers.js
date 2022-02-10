@@ -13,7 +13,7 @@ class InstancePrunerWorker {
   }
 
   async run() {
-    const prune = (() => {
+    const prune = async (() => {
       console.log(`[instance-pruner-worker] pruning instances`);
       const instances = await this.instanceService.getAllKeys();
       const currentTime = new Date();
@@ -28,7 +28,7 @@ class InstancePrunerWorker {
       }
     });
     this.interval = setInterval(() => {
-      prune();
+      await prune();
     }, 5000);
   }
 
