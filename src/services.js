@@ -138,7 +138,7 @@ class WSInstanceService {
     }
 
     try {
-      const allInstances = await this.get(WSInstanceService.INSTANCES_KEY);
+      const allInstances = await this.instanceRepository.get(WSInstanceService.INSTANCES_KEY);
 
       console.log(`[ws-instance-service] fetching instances - [${!!allInstances}] instances:['${allInstances}']`);
       if (!!allInstances) {
