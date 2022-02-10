@@ -22,12 +22,16 @@ class InstancePrunerWorker {
         for (const instanceId of instances) {
           this.instanceService.get(instanceId).then(async (instance) => {
             console.log(`[instance-pruner-worker] checking instance - instance:[${JSON.stringify(instance)}]`);
-            console.log(instance);
-            console.log(instance.updatedAt);
-            const updatedAt = new Date(instance.updatedAt);
-            const difference = (currentTime - updatedAt) / 1000;
-            if (difference > 15) { 
-              await this.instanceService.prune(instanceId);
+            if (!!instance) {
+              console.log(instance);
+              console.log(instance.updatedAt);
+              const updatedAt = new Date(instance.updatedAt);
+              const difference = (currentTime - updatedAt) / 1000;
+              if (difference > 15) { 
+                await this.instanceService.prune(instanceId);
+              }
+            } else {
+                await this.instanceService.prune(instanceId);
             }
           });
         }
