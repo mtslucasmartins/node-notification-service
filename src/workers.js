@@ -20,7 +20,7 @@ class InstancePrunerWorker {
         const currentTime = new Date();
 
         for (const instanceId of instances) {
-          const instance = this.instanceService.get(instanceId);
+          const instance = await this.instanceService.get(instanceId);
           console.log(`[instance-pruner-worker] checking instance - instance:[${instanceId}]`, instance);
           // check if instance.updatedAt is recent (15 seconds)
           // if it is, great - if it's not, delete that key.
