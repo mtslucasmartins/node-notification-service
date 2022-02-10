@@ -13,17 +13,20 @@ class InstancePrunerWorker {
   }
 
   async run() {
-    const prune = (() => {
+    const prune = (async () => {
       console.log(`[instance-pruner-worker] pruning instances`);
       this.instanceService.getAllKeys().then((instances) => {
-        console.log(`[instance-pruner-worker] found instances`, instances);
+        console.log(`[instance-pruner-worker] found instances - ${JSON.stringify(instances)}`);
         const currentTime = new Date();
 
         for (const instanceId of instances) {
           this.instanceService.get(instanceId).then((instance) => {
-            console.log(`[instance-pruner-worker] checking instance - instance:[${instanceId}]`, instance);
-            // check if instance.updatedAt is recent (15 seconds)
-            // if it is, great - if it's not, delete that key.
+            console.log(`[instance-pruner-worker] checking instance - instance:[${JSON.stringify(instance)}]`);
+            const updatedAt = new Date(instance.updatedAt);
+            const difference = (currentTime - updatedAt) / 1000;
+            if (difference > 15) { 
+              await this.instanceService.prune(instanceId);
+            }
           });
         }
       }).catch((error) => {

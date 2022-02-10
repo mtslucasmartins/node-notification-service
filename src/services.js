@@ -175,6 +175,21 @@ class WSInstanceService {
     return null;
   }
 
+  async prune(instanceId) {
+    console.log(`[ws-instance-service] pruning instance - instance:[${instanceId}]`);
+    try {
+      let allInstances = await this.getAllKeys(); // defaults to empty array
+      
+      await this.instanceRepository.del(instanceId);
+
+      allInstances = allInstances.filter((e) => e != instanceId);
+
+      await this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, JSON.stringify(allInstances));
+    } catch (error) {
+      console.log(`[ws-instance-service] something went wrong pruning instance - instance:[${instanceId}]`, error);
+    }
+  }
+
 }
 
 module.exports = {

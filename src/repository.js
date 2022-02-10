@@ -117,6 +117,10 @@ class WSInstanceRepository {
     return this.redisClient.get(key);
   }
 
+  async del(key) {
+    this.redisClient.del(key);
+  }
+
 }
 
 module.exports = {
