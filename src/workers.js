@@ -15,12 +15,12 @@ class InstancePrunerWorker {
   async run() {
     const prune = (async () => {
       console.log(`[instance-pruner-worker] pruning instances`);
-      this.instanceService.getAllKeys().then((instances) => {
+      this.instanceService.getAllKeys().then(async (instances) => {
         console.log(`[instance-pruner-worker] found instances - ${JSON.stringify(instances)}`);
         const currentTime = new Date();
 
         for (const instanceId of instances) {
-          this.instanceService.get(instanceId).then((instance) => {
+          this.instanceService.get(instanceId).then(async (instance) => {
             console.log(`[instance-pruner-worker] checking instance - instance:[${JSON.stringify(instance)}]`);
             const updatedAt = new Date(instance.updatedAt);
             const difference = (currentTime - updatedAt) / 1000;
@@ -33,7 +33,7 @@ class InstancePrunerWorker {
         console.log(`[instance-pruner-worker] error pruning instances`, error);
       });
     });
-    this.interval = setInterval(() => {
+    this.interval = setInterval(async () => {
       prune();
     }, 5000);
   }
