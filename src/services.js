@@ -125,7 +125,7 @@ class WSInstanceService {
   async getAllKeys() {
     try {
       const instances = await this.get(WSInstanceService.INSTANCES_KEY);
-      
+
       console.log(`[ws-instance-service] fetching instances - [${!!instances}] instances:['${instances}']`);
       if (!!instances) {
         return JSON.parse(instances);
@@ -162,12 +162,13 @@ class WSInstanceService {
 
       // we also need to update the key containing all instances
       if (isNewInstance) {
-        console.log(`[ws-instance-service] adding instance to active instances array - instance:[${instanceId}]`);
-        this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, JSON.stringify([]));
+        await this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, JSON.stringify([]));
         let instances = await this.getAllKeys() || []; // defaults to empty array
 
         instances.push(instanceId);
-        this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, JSON.stringify(instances));
+        console.log(`[ws-instance-service] adding instance to active instances array - instance:[${instanceId}] `, instances);
+        console.log(`[ws-instance-service] adding instance to active instances array - instance:[${instanceId}] `, JSON.stringify(instances));
+        await this.instanceRepository.set(WSInstanceService.INSTANCES_KEY, JSON.stringify(instances));
       }
 
       return instance;

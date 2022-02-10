@@ -26,10 +26,6 @@ class KafkaConnectionFactory {
 
     console.log(`[kafka][factory][heroku]: brokers=[${kafkaBrokers}]`);
 
-    console.log(kafkaSslClientCert);
-    console.log(kafkaSslClientCertKey);
-    console.log(kafkaSslTrustedCert);
-
     return new Kafka({
       clientId: KAFKA_CLIENT_ID,
       brokers: kafkaBrokers,
