@@ -1,5 +1,5 @@
 const { WSNotificationProducer } = require('./streams');
-const { WSConnectionRepository, WSInstanceRepository } = require('./repository');
+const { WSConnectionRepository, WSInstanceRepository, WSConsumerRepository } = require('./repository');
 
 // TODO: switch for environment variables
 const KAFKA_TOPIC = 'ottimizza.websocket-notifications.general';
@@ -93,21 +93,50 @@ class WSNotificationService {
 
 class WSConsumerService {
 
-  ALL_CONSUMERS_KEY = 'consumers';
-  AVAILABLE_CONSUMERS_KEY = 'consumers:availables';
+  KEY_CONSUMERS = 'consumers';
+  KEY_CONSUMERS_AVAILABLES = 'consumers:availables';
 
   constructor() {
     // TODO: create an global instance of redis shared to repositories
-    this.instanceRepository = new WSInstanceRepository();
+    this.consumerRepository = new WSConsumerRepository();
   }
 
-  getAvailableConsumer() {
+  async insertConsumers(consumers) {
+    return this.consumerRepository.set(this.KEY_CONSUMERS, JSON.stringify(consumers))
+      .then(() => {
+        return this.getConsumers();
+      });
+  }
 
+  async getConsumers() {
+    return this.consumerRepository.get(this.KEY_CONSUMERS)
+      .then((consumers) => {
+        if (!!consumers)
+          return JSON.parse(consumers)
+        return [];
+      });
+  }
+
+  async getAvailableConsumers() {
+    return this.consumerRepository.get(this.KEY_CONSUMERS_AVAILABLES)
+      .then((consumers) => {
+        if (!!consumers)
+          return JSON.parse(consumers)
+        return [];
+      });
+  }
+
+  async getAvailableConsumer() {
+    return this.getAvailableConsumers().then((consumers) => {
+
+    });
   }
 
 }
 
 class WSInstanceService {
+  static CONSUMERS = ['1', '2', '3', '4'];
+  static CONSUMERS_AVAILABLES_KEY = 'consumers:availables';
 
   static INSTANCES_KEY = 'instances';
   static ALL_INSTANCES_KEY = 'instances:all';
@@ -179,7 +208,7 @@ class WSInstanceService {
     console.log(`[ws-instance-service] pruning instance - instance:[${instanceId}]`);
     try {
       let allInstances = await this.getAllKeys(); // defaults to empty array
-      
+
       await this.instanceRepository.del(instanceId);
 
       allInstances = allInstances.filter((e) => e != instanceId);

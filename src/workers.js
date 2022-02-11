@@ -25,7 +25,7 @@ class InstancePrunerWorker {
             if (!!instance) {
               const updatedAt = new Date(instance.updatedAt);
               const difference = (currentTime - updatedAt) / 1000;
-              if (difference > 25) {
+              if (difference > 25) { // TODO: make it a property
                 await this.instanceService.prune(instanceId);
               }
             } else {
@@ -39,7 +39,7 @@ class InstancePrunerWorker {
     });
     this.interval = setInterval(async () => {
       prune();
-    }, 25000);
+    }, 25000); // TODO: make it a property
   }
 
 }
@@ -51,12 +51,10 @@ class InstanceHealthcheckWorker {
   }
 
   async run() {
-
-
     this.interval = setInterval(async () => {
       console.log(`[instance-healthcheck-worker] saving instance - instance:[${RestApplication.INSTANCE_ID}]`);
       this.instanceService.save(RestApplication.INSTANCE_ID);
-    }, 10000);
+    }, 10000); // TODO: make it a property
   }
 
 }
@@ -64,21 +62,25 @@ class InstanceHealthcheckWorker {
 class WSNotificationWorker {
 
   constructor() {
-    this.consumer = new WSNotificationConsumer(KAFKA_TOPIC);
+    this.instanceService = new WSInstanceService();
     this.notificationService = new WebSocketNotificationService();
   }
 
   async run() {
-    await this.consumer.connect();
-    await this.consumer.subscribe();
+    this.instanceService.save(RestApplication.INSTANCE_ID).then(async (instance) => {
+      this.consumer = new WSNotificationConsumer(KAFKA_TOPIC, instance.consumer);
 
-    this.consumer.on('message', ({ topic, partition, message }) => {
-      const messageString = message.value.toString('utf8');
-      console.log(`consuming new message - topic=[${topic}] partition=[${partition}]`, messageString);
+      await this.consumer.connect();
+      await this.consumer.subscribe();
 
-      const notification = JSON.parse(messageString);
+      this.consumer.on('message', ({ topic, partition, message }) => {
+        const messageString = message.value.toString('utf8');
+        console.log(`consuming new message - topic=[${topic}] partition=[${partition}]`, messageString);
 
-      this.notificationService.process(notification);
+        const notification = JSON.parse(messageString);
+
+        this.notificationService.process(notification);
+      });
     });
   }
 

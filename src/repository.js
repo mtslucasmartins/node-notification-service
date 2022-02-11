@@ -105,6 +105,26 @@ class RedisConnection {
 
 }
 
+class WSConsumerRepository {
+
+  constructor() {
+    this.redisClient = RedisConnection.getInstance();
+  }
+
+  async set(key, value) {
+    return this.redisClient.set(key, value);
+  }
+  
+  async get(key) {
+    return this.redisClient.get(key);
+  }
+
+  async del(key) {
+    return this.redisClient.del(key);
+  }
+
+}
+
 class WSInstanceRepository {
 
   constructor() {
@@ -131,5 +151,6 @@ class WSInstanceRepository {
 module.exports = {
   RedisConnectionFactory,
   WSConnectionRepository,
-  WSInstanceRepository
+  WSInstanceRepository,
+  WSConsumerRepository
 };
