@@ -1,6 +1,7 @@
 "use strict";
 
-const { WSConnectionRepository } = require('./repositories');
+const { WSConnectionRepository } = require('../../repositories');
+
 
 class WSMessagingService {
 
