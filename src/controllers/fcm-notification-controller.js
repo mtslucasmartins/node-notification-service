@@ -1,4 +1,4 @@
-const { FirebaseService } = require('../_services/notifications/firebase-notification-service');
+const { FirebaseService } = require('../_services');
 
 class FirebaseNotificationController {
 

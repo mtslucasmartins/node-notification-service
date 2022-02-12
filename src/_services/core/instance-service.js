@@ -1,7 +1,7 @@
 "use strict";
 
+const { WSConsumerService } = require('..');
 const { WSInstanceRepository } = require('../../repositories');
-const { WSConsumerService } = require('../../services');
 
 class WSInstanceService {
   static CONSUMERS = ['1', '2', '3', '4'];
