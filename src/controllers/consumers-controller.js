@@ -1,4 +1,4 @@
-const { WSConsumerService } = require('../_services');
+const { WSConsumerService } = require('../services');
 
 class ConsumersController {
 
