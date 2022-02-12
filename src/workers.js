@@ -1,5 +1,5 @@
 const { RestApplication } = require('./application');
-const { WSInstanceService } = require('./services');
+const { WSInstanceService } = require('./_services');
 const { WSNotificationConsumer } = require('./streams');
 const { WebSocketNotificationService } = require('./websocket/websocket-service');
 
