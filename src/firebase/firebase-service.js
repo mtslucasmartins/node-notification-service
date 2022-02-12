@@ -1,6 +1,6 @@
 // const { response } = require('express');
 const { FirebaseClient } = require('./firebase-client');
-const { FirebaseApplicationRepository, FirebaseEndpointRepository } = require('../_repositories');
+const { FirebaseApplicationRepository, FirebaseEndpointRepository } = require('../repositories');
 
 class FirebaseService {
 

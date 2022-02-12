@@ -1,4 +1,4 @@
-const { DatabaseConnection } = require('../database');
+const { DatabaseConnection } = require('../base/psql-connection');
 
 class BaseRepository {
 

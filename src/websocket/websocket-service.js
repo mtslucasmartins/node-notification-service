@@ -1,4 +1,4 @@
-const { WSConnectionRepository } = require('../repository');
+const { WSConnectionRepository } = require('../repositories');
 const { WSMessagingService } = require('../services');
 const { WSNotificationProducer } = require('../streams');
 

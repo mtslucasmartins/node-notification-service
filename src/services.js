@@ -1,5 +1,8 @@
+"use strict";
+
+const { WSConnectionRepository, WSConsumerRepository, WSInstanceRepository } = require('./repositories');
+
 const { WSNotificationProducer } = require('./streams');
-const { WSConnectionRepository, WSInstanceRepository, WSConsumerRepository } = require('./repository');
 
 // TODO: switch for environment variables
 const KAFKA_TOPIC = 'ottimizza.websocket-notifications.general';
