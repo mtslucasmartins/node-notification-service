@@ -8,4 +8,4 @@ const { WebSocketNotificationController } = require("./ws-notification-controlle
 
 module.exports = {
   IndexController, ConsumersController, FirebaseNotificationController, WebSocketNotificationController
-} 
+};

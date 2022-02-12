@@ -10,7 +10,7 @@ const {
   ConsumersController,
   WebSocketNotificationController,
   FirebaseNotificationController
-} = require('./_controllers');
+} = require('./controllers');
 
 
 class RestApplication {
