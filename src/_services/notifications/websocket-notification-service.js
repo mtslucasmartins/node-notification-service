@@ -1,6 +1,6 @@
 "use strict";
 
-const { WSMessagingService } = require('..');
+const { WSMessagingService } = require('../messaging/websocket-messaging-service');
 const { WSNotificationProducer } = require('../../streams');
 
 // TODO: switch for environment variables
