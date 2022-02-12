@@ -97,6 +97,4 @@ class WSNotificationService {
 module.exports = {
   WSMessagingService,
   WSNotificationService,
-  WSConsumerService,
-  WSInstanceService
 };
