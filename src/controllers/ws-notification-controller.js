@@ -1,4 +1,4 @@
-const { WebSocketNotificationService } = require('../websocket/websocket-service');
+const { WSNotificationService } = require('../services');
 
 class WebSocketNotificationController {
 
@@ -6,7 +6,7 @@ class WebSocketNotificationController {
   INTERNAL_SERVER_ERROR = 500; // create method on BaseController
 
   constructor(app) {
-    this.notificationService = new WebSocketNotificationService();
+    this.notificationService = new WSNotificationService();
 
     app.post('/api/v1/notifications/ws', (async (request, response, next) => {
       const payload = request.body;

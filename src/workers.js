@@ -1,7 +1,6 @@
 const { RestApplication } = require('./application');
-const { WSInstanceService } = require('./services');
+const { WSInstanceService, WSNotificationService } = require('./services');
 const { WSNotificationConsumer } = require('./streams');
-const { WebSocketNotificationService } = require('./websocket/websocket-service');
 
 const KAFKA_TOPIC = 'ottimizza.websocket-notifications.general';
 
@@ -63,7 +62,7 @@ class WSNotificationWorker {
 
   constructor() {
     this.instanceService = new WSInstanceService();
-    this.notificationService = new WebSocketNotificationService();
+    this.notificationService = new WSNotificationService();
   }
 
   async run() {
