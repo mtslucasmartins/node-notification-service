@@ -4,7 +4,7 @@ const { RestApplication } = require('../../application');
 const { WSInstanceService } = require('../../services');
 
 // TODO: create class to load from config, and create static accessers
-WORKERS_HEALTHCHECK_INTERVAL_MS = 'workers.healthcheck.interval.ms';
+const WORKERS_HEALTHCHECK_INTERVAL_MS = 'workers.healthcheck.interval.ms';
 
 const properties = {
   'workers.healthcheck.interval.ms': 10000
