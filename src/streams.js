@@ -2,43 +2,44 @@ const { Kafka } = require('kafkajs');
 const { EventEmitter } = require('events');
 
 const { v4: uuidv4 } = require('uuid');
+const { KafkaConnectionFactory } = require('./base/kafka-connection');
 
 // TODO: switch for environment variables
 const KAFKA_CLIENT_ID = 'app-id';
 const KAFKA_BROKERS = ['kafka:9092'];
 const KAFKA_PREFIX = process.env.KAFKA_PREFIX;
 
-class KafkaConnectionFactory {
+// class KafkaConnectionFactory {
 
-  static createHerokuKafka() {
-    console.log(`[kafka][factory][heroku]: creating kafka instance provider=[heroku]`);
+//   static createHerokuKafka() {
+//     console.log(`[kafka][factory][heroku]: creating kafka instance provider=[heroku]`);
 
-    const kafkaUrl = process.env.KAFKA_URL;
-    const kafkaSslTrustedCert = process.env.KAFKA_TRUSTED_CERT;
-    const kafkaSslClientCertKey = process.env.KAFKA_CLIENT_CERT_KEY;
-    const kafkaSslClientCert = process.env.KAFKA_CLIENT_CERT;
+//     const kafkaUrl = process.env.KAFKA_URL;
+//     const kafkaSslTrustedCert = process.env.KAFKA_TRUSTED_CERT;
+//     const kafkaSslClientCertKey = process.env.KAFKA_CLIENT_CERT_KEY;
+//     const kafkaSslClientCert = process.env.KAFKA_CLIENT_CERT;
     
-    console.log(`[kafka][factory][heroku]: kafka-url=[${kafkaUrl}]`);
+//     console.log(`[kafka][factory][heroku]: kafka-url=[${kafkaUrl}]`);
 
-    const kafkaBrokers = kafkaUrl.split(',').map((broker) => {
-      return broker.replace('kafka+ssl://', '');
-    });
+//     const kafkaBrokers = kafkaUrl.split(',').map((broker) => {
+//       return broker.replace('kafka+ssl://', '');
+//     });
 
-    console.log(`[kafka][factory][heroku]: brokers=[${kafkaBrokers}]`);
+//     console.log(`[kafka][factory][heroku]: brokers=[${kafkaBrokers}]`);
 
-    return new Kafka({
-      clientId: KAFKA_CLIENT_ID,
-      brokers: kafkaBrokers,
-      ssl: {
-        rejectUnauthorized: false,
-        ca: [ kafkaSslTrustedCert ],
-        key: kafkaSslClientCertKey,
-        cert: kafkaSslClientCert
-      }
-    });
-  }
+//     return new Kafka({
+//       clientId: KAFKA_CLIENT_ID,
+//       brokers: kafkaBrokers,
+//       ssl: {
+//         rejectUnauthorized: false,
+//         ca: [ kafkaSslTrustedCert ],
+//         key: kafkaSslClientCertKey,
+//         cert: kafkaSslClientCert
+//       }
+//     });
+//   }
 
-}
+// }
 
 class WSNotificationConsumer extends EventEmitter {
 

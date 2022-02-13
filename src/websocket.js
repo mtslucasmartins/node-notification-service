@@ -1,7 +1,7 @@
 const WebSocket = require('ws');
 const uuid = require('uuid');
 
-const { UrlUtils } = require('./utils');
+const { UrlUtils } = require('./commons/utils');
 const { WSConnectionRepository } = require('./repositories');
 
 class WSEvent {
