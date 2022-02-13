@@ -1,4 +1,4 @@
-const { WSNotificationService } = require('../services');
+const { WSNotificationService } = require('../../services');
 
 class WebSocketNotificationController {
 
