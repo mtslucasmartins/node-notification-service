@@ -1,5 +1,6 @@
-
 const { KafkaConnectionFactory } = require('../../base/kafka-connection');
+
+const KAFKA_PREFIX = process.env.KAFKA_PREFIX;
 
 class WSNotificationProducer {
 

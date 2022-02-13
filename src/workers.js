@@ -1,6 +1,6 @@
 const { RestApplication } = require('./application');
 const { WSInstanceService, WSNotificationService } = require('./services');
-const { WSNotificationConsumer } = require('./streams');
+const { WSNotificationConsumer } = require('./_streams/websockets/websocket-notifications-consumer');
 
 const KAFKA_TOPIC = 'ottimizza.websocket-notifications.general';
 

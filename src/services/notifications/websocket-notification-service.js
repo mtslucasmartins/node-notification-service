@@ -1,7 +1,7 @@
 "use strict";
 
+const { WSNotificationProducer } = require('../../_streams/websockets/websocket-notifications-producer');
 const { WSMessagingService } = require('../messaging/websocket-messaging-service');
-const { WSNotificationProducer } = require('../../streams');
 
 // TODO: switch for environment variables
 const KAFKA_TOPIC = 'ottimizza.websocket-notifications.general';
