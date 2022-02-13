@@ -1,4 +1,4 @@
-const { FirebaseClient } = require('../../_commons/clients/firebase-client');
+const { FirebaseClient } = require('../../commons/clients/firebase-client');
 const { FirebaseApplicationRepository, FirebaseEndpointRepository } = require('../../repositories');
 
 class FirebaseService {
