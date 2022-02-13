@@ -18,6 +18,13 @@ const config = {
       clientCertKey: process.env.KAFKA_CLIENT_CERT_KEY,
       trustedCert: process.env.KAFKA_TRUSTED_CERT
     }
+  },
+  properties: {
+    streams: {
+      channels: {
+        websocketNotifications: ''
+      }
+    }
   }
 };
 
