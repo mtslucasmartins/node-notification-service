@@ -76,7 +76,7 @@ class WebSocketServer {
   }
 
   onConnection(ws, req) {
-    console.log(`[websocket] on_connection`);
+    console.log(`[websocket-server] on_connection`);
     const params = UrlUtils.parseSearchParams(req.url);
 
     const sid = uuid.v4();
@@ -87,7 +87,7 @@ class WebSocketServer {
     const connectionInfo = new WSConnectionInfo(sid, username, channel, deviceInfo);
     const connection = new WSConnection(connectionInfo, ws);
 
-    console.log(`[websocket] [on:connection] - ${connection.toString()}`);
+    console.log(`[websocket-server] on_connection - ${connection.toString()}`);
     WebSocketServer.connections[sid] = connection;
     this.repository.store(sid, connection);
 

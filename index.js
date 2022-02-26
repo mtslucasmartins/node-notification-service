@@ -2,10 +2,10 @@
 
 const { RestApplication } = require('./src/application');
 const { WebSocketServer } = require('./src/websocket');
-const { WorkManager } = require('./src/workers');
 
 const { RedisConnectionFactory } = require('./src/base/redis-connection');
 const { DatabaseConnectionFactory } = require('./src/base/psql-connection');
+const { WorkManager } = require('./src/workers/core/work-manager');
 
 class Application {
 
