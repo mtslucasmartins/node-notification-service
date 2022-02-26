@@ -1,8 +1,8 @@
 const WebSocket = require('ws');
 const uuid = require('uuid');
 
-const { UrlUtils } = require('./utils');
-const { WSConnectionRepository } = require('./repository');
+const { UrlUtils } = require('./commons/utils');
+const { WSConnectionRepository } = require('./repositories');
 
 class WSEvent {
   static CONNECTION = 'connection';
@@ -72,11 +72,11 @@ class WebSocketServer {
   }
 
   onMessage(ws, data) {
-    console.error(`onMessage: ${data}`);
+    // console.error(`onMessage: ${data}`);
   }
 
   onConnection(ws, req) {
-    console.log(`[websocket] on_connection`);
+    console.log(`[websocket-server] on_connection`);
     const params = UrlUtils.parseSearchParams(req.url);
 
     const sid = uuid.v4();
@@ -87,7 +87,7 @@ class WebSocketServer {
     const connectionInfo = new WSConnectionInfo(sid, username, channel, deviceInfo);
     const connection = new WSConnection(connectionInfo, ws);
 
-    console.log(`[websocket] [on:connection] - ${connection.toString()}`);
+    console.log(`[websocket-server] on_connection - ${connection.toString()}`);
     WebSocketServer.connections[sid] = connection;
     this.repository.store(sid, connection);
 

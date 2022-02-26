@@ -1,8 +1,7 @@
-const { WSNotificationProducer } = require('./streams');
-const { WSConnectionRepository } = require('./repository');
+"use strict";
 
-// TODO: switch for environment variables
-const KAFKA_TOPIC = 'ottimizza.websocket-notifications.general';
+const { WSConnectionRepository } = require('../../repositories');
+
 
 class WSMessagingService {
 
@@ -14,7 +13,7 @@ class WSMessagingService {
     this.repository.findAll()
       .forEach(([key, value]) => {
         // TODO: remove this line switch for 'value'
-        const connection = this.repository.findBySId(key); 
+        const connection = this.repository.findBySId(key);
         connection.ws.send(JSON.stringify(message));
       });
   }
@@ -22,7 +21,7 @@ class WSMessagingService {
   sendMessage(message, options) {
     const channel = options.channel;
     const username = options.username;
-    
+
     console.log(`sending message - channel=[${channel}] username=[${username}]`);
 
     if (this.notEmpty(channel)) {
@@ -37,12 +36,12 @@ class WSMessagingService {
   #sendMessageByChannel(message, channel) {
     console.log(`sending message - channel=[${channel}]`);
 
-    console.log(this.repository.findByChannel(channel));  
+    console.log(this.repository.findByChannel(channel));
 
     this.repository.findByChannel(channel)
       .forEach(([key, value]) => {
         // TODO: remove this line switch for 'value'
-        const connection = this.repository.findBySId(key); 
+        const connection = this.repository.findBySId(key);
         connection.ws.send(JSON.stringify(message));
       });
   }
@@ -52,7 +51,7 @@ class WSMessagingService {
     this.repository.findByUsername(username)
       .forEach(([key, value]) => {
         // TODO: remove this line switch for 'value'
-        const connection = this.repository.findBySId(key); 
+        const connection = this.repository.findBySId(key);
         connection.ws.send(JSON.stringify(message));
       });
   }
@@ -63,35 +62,6 @@ class WSMessagingService {
 
 }
 
-class WSNotificationService {
-
-  constructor() {
-    this.messagingService = new WSMessagingService();
-    this.producer = new WSNotificationProducer(KAFKA_TOPIC);
-  }
-
-  async publish(notification) { 
-    await this.producer.connect();
-
-    const channel = notification.channel;
-    const username = notification.username;
-    const message = notification.message;
-
-    this.producer.send(JSON.stringify({ channel, username, message }));
-  }
-
-  process(notification) { 
-    const channel = notification.channel;
-    const username = notification.username;
-    const message = notification.message;
-
-    console.log(`processing notification - channel=[${channel}] username=[${username}]`);
-    this.messagingService.sendMessage(message, { channel, username });
-  }
-
-}
-
 module.exports = {
-  WSMessagingService,
-  WSNotificationService
+  WSMessagingService
 };

@@ -1,23 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Demo</title>
+
+  <!-- UIkit CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.10.1/dist/css/uikit.min.css" />
+  <!-- UIkit JS -->
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.1/dist/js/uikit.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.10.1/dist/js/uikit-icons.min.js"></script>
+
 </head>
+
 <body>
   <div class="page-wrapper">
     <div class="container">
       <div class="websocket-channel-connector">
         <div class="websocket-connection-params">
-          <input type="text" placeholder="channel">
+          <input id="websocket-connection-uri" class="uk-input" placeholder="uri" type="text">
+          <input id="websocket-connection-channel" class="uk-input" placeholder="channel" type="text">
+          <input id="websocket-connection-username" class="uk-input" placeholder="username" type="text">
+          <button id="websocket-connection-connect" class="uk-button uk-button-default">
+            connect
+          </button>
         </div>
-        <div class="websocket-connection-logs">
-          
+        <div id="websocket-connection-logs">
+          <table class="uk-table uk-table-striped">
+            <thead>
+              <tr>
+                <th>Table Heading</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Table Data</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
+  <script src="/js/app.js"></script>
 </body>
+
 </html>

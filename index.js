@@ -1,13 +1,31 @@
-const { WorkManager } = require('./src/workers');
+"use strict";
+
 const { RestApplication } = require('./src/application');
 const { WebSocketServer } = require('./src/websocket');
+
+const { RedisConnectionFactory } = require('./src/base/redis-connection');
+const { DatabaseConnectionFactory } = require('./src/base/psql-connection');
+const { WorkManager } = require('./src/workers/core/work-manager');
 
 class Application {
 
   constructor() {
-    this.#initializeWorkers().then(() => {
-      this.#initializeServers();
+    Promise.all([
+      this.#initializeDatabaseConnection(),
+      this.#initializeRedisConnection()
+    ]).then(() => {
+      this.#initializeWorkers().then(() => {
+        this.#initializeServers();
+      });
     });
+  }
+
+  async #initializeDatabaseConnection() {
+    return DatabaseConnectionFactory.createDatabaseConnection();
+  }
+
+  async #initializeRedisConnection() {
+    return RedisConnectionFactory.createRedisConnection();
   }
 
   async #initializeServers() {

@@ -1,5 +1,3 @@
-"use strict";
-
 class ConnectionStorage {
 
   static connections = {};
@@ -19,27 +17,27 @@ class WSConnectionRepository {
   findBySId(sid) {
     return ConnectionStorage.connections[sid];
   }
-  
+
   findByUsername(username) {
     return Object.entries(ConnectionStorage.connections)
-                 .filter(([k, v]) => v.info.username === username);
+      .filter(([k, v]) => v.info.username === username);
   }
-  
+
   findByChannel(channel) {
     return Object.entries(ConnectionStorage.connections)
-                 .filter(([k, v]) => v.info.channel === channel);
+      .filter(([k, v]) => v.info.channel === channel);
   }
 
   store(sid, connection) {
     ConnectionStorage.connections[sid] = connection;
   }
 
-  destroy(sid) { 
+  destroy(sid) {
     delete ConnectionStorage.connections[sid];
   }
 
 }
 
 module.exports = {
-  WSConnectionRepository
+  WSConnectionRepository,
 };
